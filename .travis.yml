@@ -1,0 +1,5 @@
+language: cpp
+script: rake
+before_script:
+	- sudo apt-get install avr-tools arduino
+script: make
