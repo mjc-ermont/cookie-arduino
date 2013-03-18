@@ -1,4 +1,3 @@
 language: cpp
-before_script:
-	- sudo apt-get install avr-tools arduino
+before_script: sudo apt-get install avr-tools arduino
 script: make
