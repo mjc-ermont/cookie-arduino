@@ -44,11 +44,11 @@
 TARGET = $(notdir $(CURDIR))
 # Change this to match your arduino installation directory
 INSTALL_DIR = /usr/share/arduino
-PORT = /dev/ttyUSB*
+PORT = /dev/ttyACM*
 UPLOAD_RATE = 115200
-AVRDUDE_PROGRAMMER = stk500v2
-MCU = atmega2560
-F_CPU = 16000000
+AVRDUDE_PROGRAMMER = arduino
+MCU = atmega328p
+F_CPU = 16000000L
 
 VERSION=104
 ARDUINO = $(INSTALL_DIR)/hardware/arduino/cores/arduino

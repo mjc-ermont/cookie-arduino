@@ -80,7 +80,7 @@ void loop(){
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
      debug("dt");
-     //gps.getTrame();
+     gps.getTrame();
      Serial.flush();
      debug("1");
      accel.getTrame();
@@ -112,7 +112,7 @@ void loop(){
      pile.refresh();
      refreshed = true;
    } 
-   if (/*Serial1.available() > 0*/ false){
+   if (Serial.available() > 0){
      debug("drg");
      gps.refresh();
      debug("frg");

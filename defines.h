@@ -3,14 +3,15 @@
 
 /*  ------- DEBUG -------  */
 
-#define SERIAL_DEBUG    0    // Activation du mode debug
+#define SERIAL_DEBUG    1
+// Activation du mode debug
 
 /*  ------- TRASMISSION -------  */
 
 #define DELAY_SEND       1000
 #define DELAY_REFRESH    800
 
-#define SERIAL_BAUDRATE  600 // baudrate de la liaison série avec le kiwi
+#define SERIAL_BAUDRATE  57600 // baudrate de la liaison série avec le kiwi
 #define NB_REPET         3    // Nombre de répéition de la trame
 #define SIZE_VALUE       7    // Longueur maxi de la valeur dans la trame
 #define ID_CAPT_GPS      0   // ID dans la trame du GPS
@@ -22,7 +23,7 @@
 #define ID_CAPT_PRESSEXT 6    // ID dans la trame du capeur de pression
 
 // GPS
-#define GPS_BAUDRATE     4800 // baudrate de la liaison série avec le GPS
+#define GPS_BAUDRATE     9600 // baudrate de la liaison série avec le GPS
 #define NB_VAL_GPS       7    // Nombre de valeurs du capteur GPS
 #define ID_VAL_LAT_DEG   0    // No de la valeur "Degres latitude" dans la trame
 #define ID_VAL_LAT_MIN   1    // No de la valeur "Minutes latitude" dans la trame
