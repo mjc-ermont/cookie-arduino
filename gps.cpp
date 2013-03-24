@@ -15,17 +15,17 @@ bool GPS::refresh(){
   char current_char = 0;                            // Variable contenant le byte qui vient d'être lu depuis le GPS
   char table[40][100];                                 // tableau contenant la trame complète envoyée par le GPS
   byte i = 0, j = 0;
+  int timer = millis();
     
   if (Serial.available() > 0){                     // On verifie qu'il y a des données a lire
     while (Serial.read() != '$'){
             if ((millis() - timer) > 1000)
-              return;                  // On attend le debut de la trame
+              return false;                  // On attend le debut de la trame
     }
-    int timer = millis();
     while (true){                                   // On lit toute la trame, sauf le checksum, et on la place dans un string
       //debug("w");
       if ((millis() - timer) > 1000)
-        return;
+        return false;
       current_char = Serial.read();
       //Serial.write(current_char);
       Serial.flush();
