@@ -17,12 +17,15 @@ bool GPS::refresh(){
   byte i = 0, j = 0;
     
   if (Serial.available() > 0){                     // On verifie qu'il y a des données a lire
-    while (Serial.read() != '$');                  // On attend le debut de la trame
+    while (Serial.read() != '$'){
+            if ((millis() - timer) > 1000)
+              return;                  // On attend le debut de la trame
+    }
     int timer = millis();
     while (true){                                   // On lit toute la trame, sauf le checksum, et on la place dans un string
       //debug("w");
       if ((millis() - timer) > 1000)
-        break;
+        return;
       current_char = Serial.read();
       //Serial.write(current_char);
       Serial.flush();
@@ -46,19 +49,16 @@ bool GPS::refresh(){
        
       strcpy(_val[ID_VAL_UTIME], table[1]);                        // ... On en extrait le temps, ...
       
-      
-      //if(strlen(table[3]) == 10){                                // ... la latitude et la longitude (si la valeur a la bonne longueur) ...
-        strncpy(_val[ID_VAL_LAT_DEG], table[3], 2);
-        //_val[ID_VAL_LAT_DEG][2] = '\0';
-        strncpy(_val[ID_VAL_LAT_MIN], table[3] + 2, 7);
-        //_val[ID_VAL_LAT_MIN][7] = '\0';
-      //}
-      //if(strlen(table[5]) == 11){
-        strncpy(_val[ID_VAL_LON_DEG], table[5], 3);
-        //_val[ID_VAL_LON_DEG][2] = '\0';
-        strncpy(_val[ID_VAL_LON_MIN], table[5] + 3, 7);
-        //_val[ID_VAL_LON_MIN][3] = '\0';
-      //%}
+      strncpy(_val[ID_VAL_LAT_DEG], table[3], 2); // ... la latitude et la longitude (si la valeur a la bonne longueur) ...
+      _val[ID_VAL_LAT_DEG][2] = '\0';
+      strncpy(_val[ID_VAL_LAT_MIN], table[3] + 2, 7);
+      _val[ID_VAL_LAT_MIN][7] = '\0';
+
+      strncpy(_val[ID_VAL_LON_DEG], table[5], 3);
+      _val[ID_VAL_LON_DEG][3] = '\0';
+      strncpy(_val[ID_VAL_LON_MIN], table[5] + 3, 7);
+      _val[ID_VAL_LON_MIN][7] = '\0';
+
       strcpy(_val[ID_VAL_VIT], table[7]);                          // ... et la vitesse
     } else if (strcmp(table[0], "GPGGA") == 0) {                   // Sinon, si c'est une trame GPGGA
       strcpy(_val[ID_VAL_ALT], table[7]);                          // On extrait l'altitude 
