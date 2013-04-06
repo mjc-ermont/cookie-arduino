@@ -38,10 +38,9 @@ void setup() {
   }
   _file.print("sdsdsd");
   _file.close();*/
-  //Serial.print("jsdfjhfhfhfh");
-    so.init();
-    sd.init();
-    pinMode(13, OUTPUT);
+   so.init();
+   sd.init();
+   pinMode(13, OUTPUT);
    debug("ddd");
    press.init();
    pressext.init();
@@ -79,25 +78,24 @@ void loop(){
    //debug("d");
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
-     debug("dt");
+     //debug("dt");
      gps.getTrame();
-     Serial.flush();
-     debug("1");
+     
+     //debug("1");
      accel.getTrame();
-     Serial.flush();
-     debug("2");
+     
+     //debug("2");
      hum.getTrame();
-     Serial.flush();
-     debug("3");
+     //debug("3");
      press.getTrame();
      pressext.getTrame();
-     Serial.flush();
-     debug("4");
+     
+     //debug("4");
      temp.getTrame();
      pile.getTrame();
-     Serial.flush();
+     
      timer = millis();
-     debug("ft");
+     //debug("ft");
    } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
      debug("dr");
      accel.refresh();
@@ -111,12 +109,15 @@ void loop(){
      debug("fr");
      pile.refresh();
      refreshed = true;
-   } 
-   if (Serial.available() > 0){
      debug("drg");
      gps.refresh();
      debug("frg");
-   }
+   } 
+   /*if (Serial.available() > 0){
+     debug("drg");
+     gps.refresh();
+     debug("frg");
+   }*/
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
      int altgps /*= atoi(gps.getValue(ID_VAL_ALT))*/;
@@ -130,7 +131,7 @@ void loop(){
    if (check_alt > 60){
      digitalWrite(13, HIGH);
    }
-   Serial.flush();
+   
    //debug("f");
 }
 
