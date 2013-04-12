@@ -25,6 +25,13 @@ bool GPS::refresh(){
               return false;                  // On attend le debut de la trame
     }
     while (true){                                   // On lit toute la trame, sauf le checksum, et on la place dans un string
+      if (j >= 20){
+        i++;
+        j=0;
+      }
+      if (i >= 15){
+        break;
+      }
       if ((millis() - timer) > 1000)
         return false;
       current_char = Serial.read();
@@ -41,7 +48,7 @@ bool GPS::refresh(){
         j=0;
         //Serial.print("---");
       }
-        
+
       if ((current_char != -1) && (current_char != ',')){ // Si la donnée lue est une valeur acceptable, on l'ajoute a la chaine
         //Serial.write(current_char);
         table[i][j] = current_char;
