@@ -68,7 +68,7 @@ bool GPS::refresh(){
       strcpy(_val[ID_VAL_VIT], table[7]);                          // ... et la vitesse
     } else if (strcmp(table[0], "GPGGA") == 0) {                   // Sinon, si c'est une trame GPGGA
       strncpy(_val[ID_VAL_UTIME], table[1], 6);                        // ... On en extrait le temps, ...
-      strcpy(_val[ID_VAL_ALT], table[7]);                          // On extrait l'altitude 
+      strcpy(_val[ID_VAL_ALT], table[9]);                          // On extrait l'altitude 
     }
   }
   return true;
