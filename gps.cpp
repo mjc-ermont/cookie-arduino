@@ -2,6 +2,7 @@
 #include "trame.h"
 #include "defines.h"
 #include "debug.h"
+#include "TinyGPS.h"
 
 GPS::GPS(const byte &id) : Capteur::Capteur(id, NB_VAL_GPS){
 
@@ -11,74 +12,20 @@ bool GPS::init(){
 }
 
 bool GPS::refresh(){
-  //Serial.println("Debut");
-    
-  while (Serial.available() > 0){                     // On verifie qu'il y a des données a lire
-    char current_char = 0;                            // Variable contenant le byte qui vient d'être lu depuis le GPS
-    byte i = 0, j = 0;
-    int timer = millis();
+      long flat, flon;
+      unsigned long age, date, time, fix_age;
+      while(Serial.available()>0){
+        _gps.encode(Serial.read());
+      }     
+      _gps.get_position(&flat, &flon, &age);  
+      _gps.get_datetime(&date, &time, &fix_age);
 
-    char table[15][20] = {0};                                 // tableau contenant la trame complète envoyée par le GPS
+      String(flat).toCharArray(_val[ID_VAL_LAT_DEG], SIZE_VALUE+1);
+      String(flon).toCharArray(_val[ID_VAL_LON_DEG], SIZE_VALUE+1);
+      String(_gps.speed()).toCharArray(_val[ID_VAL_VIT], SIZE_VALUE+1);
+      String(_gps.altitude()).toCharArray(_val[ID_VAL_ALT], SIZE_VALUE+1);
+      String(time).toCharArray(_val[ID_VAL_UTIME], SIZE_VALUE+1);
 
-    while (Serial.read() != '$'){
-            if ((millis() - timer) > 1000)
-              return false;                  // On attend le debut de la trame
-    }
-    while (true){                                   // On lit toute la trame, sauf le checksum, et on la place dans un string
-      if (j >= 20){
-        i++;
-        j=0;
-      }
-      if (i >= 15){
-        break;
-      }
-      if ((millis() - timer) > 1000)
-        return false;
-      current_char = Serial.read();
-      if (current_char == -1){                     // on skippe si on a rien lu
-        continue;
-      }
-      if (current_char == '*'){                     // Arret de la boucle quand on arrive a la fin
-        break;
-      }
-      
-      if(current_char == ','){                      // si on rencontre une virgule, on passe a la valeur suivante
-        table[i][j] = '\0';
-        i++;
-        j=0;
-        //Serial.print("---");
-      }
-
-      if ((current_char != -1) && (current_char != ',')){ // Si la donnée lue est une valeur acceptable, on l'ajoute a la chaine
-        //Serial.write(current_char);
-        table[i][j] = current_char;
-        j++;
-      }
-    }
-    Serial.print(" --------------------------------------- Valeur GPS : ");
-    //Serial.println(table[3]);
-    //debug("fg");
-    if(strcmp(table[0], "GPRMC") == 0){                            // On trie les données recues : Si la trame recue est une trame GPRMC ...
-       
-      strncpy(_val[ID_VAL_UTIME], table[1], 6);                        // ... On en extrait le temps, ...
-      
-      strncpy(_val[ID_VAL_LAT_DEG], table[3], 2); // ... la latitude et la longitude (si la valeur a la bonne longueur) ...
-      _val[ID_VAL_LAT_DEG][2] = '\0';
-      strncpy(_val[ID_VAL_LAT_MIN], table[3] + 2, 7);
-      _val[ID_VAL_LAT_MIN][7] = '\0';
-
-      strncpy(_val[ID_VAL_LON_DEG], table[5], 3);
-      _val[ID_VAL_LON_DEG][3] = '\0';
-      strncpy(_val[ID_VAL_LON_MIN], table[5] + 3, 7);
-      _val[ID_VAL_LON_MIN][7] = '\0';
-
-      strcpy(_val[ID_VAL_VIT], table[7]);                          // ... et la vitesse
-    } else if (strcmp(table[0], "GPGGA") == 0) {                   // Sinon, si c'est une trame GPGGA
-      strncpy(_val[ID_VAL_UTIME], table[1], 6);                        // ... On en extrait le temps, ...
-      strcpy(_val[ID_VAL_ALT], table[9]);                          // On extrait l'altitude 
-    }
-  }
-  return true;
 }
 
 /*void GPS::getTrame(){

@@ -78,46 +78,34 @@ void loop(){
    //debug("d");
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
-     //debug("dt");
      gps.getTrame();
-     
-     //debug("1");
      accel.getTrame();
-     
-     //debug("2");
      hum.getTrame();
-     //debug("3");
      press.getTrame();
      pressext.getTrame();
-     
-     //debug("4");
      temp.getTrame();
      pile.getTrame();
      
      timer = millis();
-     //debug("ft");
    } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
      debug("dr");
      accel.refresh();
-     debug("1");
      hum.refresh();
-     debug("2");
      press.refresh();
      pressext.refresh();
-     debug("3");
      temp.refresh();
      debug("fr");
      pile.refresh();
      refreshed = true;
-     debug("drg");
-     gps.refresh();
-     debug("frg");
+     /*debug("drg");
+     //gps.refresh();
+     debug("frg");*/
    } 
-   /*if (Serial.available() > 0){
+   if (Serial.available() > 0){
      debug("drg");
      gps.refresh();
      debug("frg");
-   }*/
+   }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
      int altgps /*= atoi(gps.getValue(ID_VAL_ALT))*/;

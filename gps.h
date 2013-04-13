@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "capteur.h"
+#include "TinyGPS.h"
 
 class GPS : public Capteur {
 public:
@@ -12,6 +13,7 @@ public:
         //void getTrame();
 
 private:
+        TinyGPS _gps;
 };
 
 #endif
