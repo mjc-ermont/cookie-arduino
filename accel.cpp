@@ -12,18 +12,23 @@ Accel::Accel(const byte &id_capt) : Capteur::Capteur(id_capt, 1){
 bool Accel::init(){ // methode d'iniialisation de l'accelerometre
   Wire.begin();                  // initialisation de la bibliotheque I2C
   delay(100);
-  _accel.set_bw(ADXL345_BW_12);  // Allumage de l'accelerometre
-  _accel.powerOn();
+  this->writeTo(DATA_FORMAT, 0x01);
+  this->writeTo(POWER_CTL, 0x08);
 }
 
 bool Accel::refresh(){ // methode de recuperation des donnees de l'accelerometre
-  float acc_data[3];             // Tableau des trois composantes du vecteur d'acceleration
-  float avg = 0;                 // Norme du vecteur d'acceleration
+  byte _buff[6];
+  short int acc_data[3];             // Tableau des trois composantes du vecteur d'acceleration
+  int avg = 0;                 // Norme du vecteur d'acceleration
   
-  _accel.get_Gxyz((double*)acc_data);     // recuperation des valeurs de l'accelerometre
+  this->readFrom(0x32, _buff);
   
-  for(int i = 0; i < 3; i++){    // Calcul de la norme du vecteur d'acceleration
-    avg += (float)acc_data[i] * (float)acc_data[i];
+  acc_data[0] = (((short int)_buff[1]) << 8) | _buff[0];   
+  acc_data[1] = (((short int)_buff[3]) << 8) | _buff[2];
+  acc_data[2] = (((short int)_buff[5]) << 8) | _buff[4];  
+  
+  for(byte i = 0; i < 3; i++){    // Calcul de la norme du vecteur d'acceleration
+    avg += acc_data[i] * acc_data[i];
   }
   
   itoa((int)(100*sqrt(avg)), _val[0], 10);
@@ -44,3 +49,28 @@ bool Accel::refresh(){ // methode de recuperation des donnees de l'accelerometre
       _out[i].writeQueue();                  // écriture sur la sortie de la file d'envoi 
     }
 }*/
+
+void Accel::writeTo(byte address, byte val) {
+  Wire.beginTransmission(DEVICE); // start transmission to device 
+  Wire.write(address);             // send register address
+  Wire.write(val);                 // send value to write
+  Wire.endTransmission();         // end transmission
+}
+
+// Reads num bytes starting from address register on device in to _buff array
+void Accel::readFrom(byte address, byte _buff[]) {
+  Wire.beginTransmission(DEVICE); // start transmission to device 
+  Wire.write(address);             // sends address to read from
+  Wire.endTransmission();         // end transmission
+
+  Wire.beginTransmission(DEVICE); // start transmission to device
+  Wire.requestFrom(DEVICE, 6);    // request 6 bytes from device
+
+  int i = 0;
+  while(Wire.available())         // device may send less than requested (abnormal)
+  { 
+    _buff[i] = Wire.read();    // receive a byte
+    i++;
+  }
+  Wire.endTransmission();         // end transmission
+}

@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "WProgram.h"
 #endif
 
+#define _GPS_NO_STATS
 #define _GPS_VERSION 12 // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
 #define _GPS_MPS_PER_KNOT 0.51444444
@@ -78,12 +79,12 @@ public:
   void f_get_position(float *latitude, float *longitude, unsigned long *fix_age = 0);
   void crack_datetime(int *year, byte *month, byte *day, 
     byte *hour, byte *minute, byte *second, byte *hundredths = 0, unsigned long *fix_age = 0);
-  float f_altitude();
+/*  float f_altitude();
   float f_course();
   float f_speed_knots();
   float f_speed_mph();
   float f_speed_mps();
-  float f_speed_kmph();
+  float f_speed_kmph();*/
 
   static int library_version() { return _GPS_VERSION; }
 
@@ -139,7 +140,7 @@ private:
   int gpsstrcmp(const char *str1, const char *str2);
 };
 
-#if !defined(ARDUINO) 
+/*#if !defined(ARDUINO) 
 // Arduino 0012 workaround
 #undef int
 #undef char
@@ -148,6 +149,6 @@ private:
 #undef float
 #undef abs
 #undef round 
-#endif
+#endif*/
 
 #endif

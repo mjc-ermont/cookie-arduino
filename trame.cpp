@@ -1,4 +1,3 @@
-#include <string.h>
 #include <Arduino.h>
 
 byte get_checksum(char *string) // fonction de génération du checksum

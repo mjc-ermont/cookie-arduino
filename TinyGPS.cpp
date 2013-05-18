@@ -388,7 +388,7 @@ void TinyGPS::crack_datetime(int *year, byte *month, byte *day,
   if (hundredths) *hundredths = time % 100;
 }
 
-float TinyGPS::f_altitude()    
+/*float TinyGPS::f_altitude()    
 {
   return _altitude == GPS_INVALID_ALTITUDE ? GPS_INVALID_F_ALTITUDE : _altitude / 100.0;
 }
@@ -423,4 +423,4 @@ float TinyGPS::f_speed_kmph()
 
 const float TinyGPS::GPS_INVALID_F_ANGLE = 1000.0;
 const float TinyGPS::GPS_INVALID_F_ALTITUDE = 1000000.0;
-const float TinyGPS::GPS_INVALID_F_SPEED = -1.0;
+const float TinyGPS::GPS_INVALID_F_SPEED = -1.0;*/

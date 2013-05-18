@@ -9,7 +9,6 @@
  #include "temp.h"
  #include "serial_out.h"
  #include "sd_out.h"
- #include "debug.h"
  
  GPS gps = GPS(ID_CAPT_GPS);
  Accel accel = Accel(ID_CAPT_ACCEL);
@@ -28,31 +27,22 @@ void setup() {
 //#if SERIAL_DEBUG
    Serial.begin(SERIAL_BAUDRATE);
 //#endif
+/*pinMode (2, OUTPUT);
+digitalWrite(2, HIGH);
+delay(1000);
+digitalWrite(2, LOW);
+delay(1000);*/
     pinMode(SD_CS_PIN, OUTPUT);
-/*  if (!SD.begin(SD_CS_PIN)) {
-    Serial.println("Card failed, or not presente");
-  }
-  File _file = SD.open("sprof.txt", FILE_WRITE);
-  if(!(_file)){
-    Serial.println("------------------------");
-  }
-  _file.print("sdsdsd");
-  _file.close();*/
+
    so.init();
    sd.init();
    pinMode(13, OUTPUT);
-   debug("ddd");
    press.init();
    pressext.init();
-   debug("111");
    gps.init();
-   debug("222");
    accel.init();
-   debug("333");
    hum.init();
-   debug("444");
    temp.init();
-   debug("mmm");
    accel.addOut(&so);
    press.addOut(&so);
    pressext.addOut(&so);
@@ -70,7 +60,6 @@ void setup() {
    //Serial1.begin(GPS_BAUDRATE);
    timer = millis();
    timeralt = millis();
-   debug("fff");
 }
            
 void loop(){
@@ -88,13 +77,11 @@ void loop(){
      
      timer = millis();
    } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
-     debug("dr");
      accel.refresh();
      hum.refresh();
      press.refresh();
      pressext.refresh();
      temp.refresh();
-     debug("fr");
      pile.refresh();
      refreshed = true;
      /*debug("drg");
@@ -102,9 +89,7 @@ void loop(){
      debug("frg");*/
    } 
    if (Serial.available() > 0){
-     debug("drg");
      gps.refresh();
-     debug("frg");
    }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();

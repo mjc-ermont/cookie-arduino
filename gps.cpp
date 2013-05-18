@@ -1,7 +1,6 @@
 #include "gps.h"
 #include "trame.h"
 #include "defines.h"
-#include "debug.h"
 #include "TinyGPS.h"
 
 GPS::GPS(const byte &id) : Capteur::Capteur(id, NB_VAL_GPS){

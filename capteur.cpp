@@ -2,7 +2,6 @@
 #include "capteur.h"
 #include "defines.h"
 #include "trame.h"
-#include "debug.h"
 
 Capteur::Capteur(const byte &id_capt, const byte &nb_val) : _id_capt(id_capt), _nb_val(nb_val) {
   _val = (char**) malloc(nb_val*sizeof(char*));

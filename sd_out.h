@@ -2,7 +2,6 @@
 #define SDOUT_INCLUDED
 #include <SD.h>
 #include <Arduino.h>
-#include "queue.h"
 #include "out.h"
 
 class SdOut : public Out {

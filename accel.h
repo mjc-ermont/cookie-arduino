@@ -1,8 +1,12 @@
 #ifndef ACCEL_INCLUDED
 #define ACCEL_INCLUDED
 
+#define POWER_CTL 0x2D	//Power Control Register
+#define DATA_FORMAT 0x31
+#define DEVICE (0x53)
+
+
 #include <Arduino.h>
-#include "ADXL345.h"
 #include "vector.h"
 #include "out.h"
 #include "capteur.h"
@@ -15,6 +19,7 @@ public:
 //        void getTrame(); // methode d'envoi de la trame
 
 private:
-        ADXL345 _accel; // Objet pour gérer accelerometre
+        void writeTo(byte address, byte val);
+        void readFrom(byte address, byte _buff[]);
 };
 #endif
