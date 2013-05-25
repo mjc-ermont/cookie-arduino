@@ -23,6 +23,9 @@
  unsigned long timer, timeralt;
  bool refreshed = false;
  
+   byte check_alt = 0;
+
+ 
 void setup() {
 //#if SERIAL_DEBUG
    Serial.begin(SERIAL_BAUDRATE);
@@ -33,6 +36,7 @@ delay(1000);
 digitalWrite(2, LOW);
 delay(1000);*/
     pinMode(SD_CS_PIN, OUTPUT);
+    pinMode(13, OUTPUT);
 
    so.init();
    sd.init();
@@ -63,7 +67,6 @@ delay(1000);*/
 }
            
 void loop(){
-  byte check_alt = 0;
    //debug("d");
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
@@ -93,15 +96,23 @@ void loop(){
    }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
-     int altgps /*= atoi(gps.getValue(ID_VAL_ALT))*/;
+     digitalWrite(13, HIGH);
+     long unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
      int altpress = atoi(press.getValue(0));
-     if((altgps > 25000) || (altpress < 250)){
+     Serial.println(altpress0);
+
+Serial.println(check_alt);
+
+     if((altgps > (unsigned long int)25000) || (altpress < 250)){
        check_alt++;
      } else {
        check_alt = 0;
      }
    }
    if (check_alt > 60){
+                Serial.println("dandanlekoubyniste");
+       check_alt = 0;
+
      digitalWrite(13, HIGH);
    }
    
