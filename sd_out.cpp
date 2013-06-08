@@ -28,7 +28,6 @@ void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
       if(!(file)){
         //Serial.println("Can't write to file");
       }
-      //Serial.println("ljsfhfgsfdhjdfhjghjg");
       file.print(trame);                     // Ecriture de l'element courant
       file.flush();                          // attente de la fin de l'ecriture
     }

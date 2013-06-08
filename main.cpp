@@ -1,5 +1,6 @@
  #include <Wire.h>
  #include <SD.h>
+ #include <Servo.h>
  #include "trame.h"
  #include "gps.h"
  #include "defines.h"
@@ -24,11 +25,11 @@
  bool refreshed = false;
  
    byte check_alt = 0;
-
+Servo servo();
  
 void setup() {
 //#if SERIAL_DEBUG
-   Serial.begin(SERIAL_BAUDRATE);
+   //Serial.begin(SERIAL_BAUDRATE);
 //#endif
 /*pinMode (2, OUTPUT);
 digitalWrite(2, HIGH);
@@ -99,18 +100,14 @@ void loop(){
      digitalWrite(13, HIGH);
      long unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
      int altpress = atoi(press.getValue(0));
-     Serial.println(altpress0);
 
-Serial.println(check_alt);
-
-     if((altgps > (unsigned long int)25000) || (altpress < 250)){
+     if((altgps > (unsigned long int)25000) || (altpress < 500)){
        check_alt++;
      } else {
        check_alt = 0;
      }
    }
    if (check_alt > 60){
-                Serial.println("dandanlekoubyniste");
        check_alt = 0;
 
      digitalWrite(13, HIGH);

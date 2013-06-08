@@ -89,11 +89,10 @@ $(ARDUINO_LIB)/SD/File.cpp \
 $(ARDUINO_LIB)/SD/utility/SdVolume.cpp \
 $(ARDUINO_LIB)/SD/utility/SdFile.cpp \
 $(ARDUINO_LIB)/SD/utility/Sd2Card.cpp \
+$(ARDUINO_LIB)/Servo/Servo.cpp \
 $(CURDIR)/capteur.cpp \
 $(CURDIR)/accel.cpp \
-$(CURDIR)/ADXL345.cpp \
 $(CURDIR)/capteur_analog.cpp \
-$(CURDIR)/debug.cpp \
 $(CURDIR)/gps.cpp \
 $(CURDIR)/humidity.cpp \
 $(CURDIR)/out.cpp \
@@ -102,6 +101,8 @@ $(CURDIR)/sd_out.cpp \
 $(CURDIR)/serial_out.cpp \
 $(CURDIR)/temp.cpp \
 $(CURDIR)/trame.cpp \
+$(CURDIR)/sws.cpp \
+$(CURDIR)/TinyGPS.cpp \
 
 
 CXX_APP = main.cpp
@@ -126,8 +127,8 @@ CDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
 # Place -I options here
-CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility  -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility
-CXXINCS = -I$(ARDUINO) -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility
+CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility  -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility -I$(ARDUINO_LIB)/Servo
+CXXINCS = -I$(ARDUINO) -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility -I$(ARDUINO_LIB)/Servo
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
