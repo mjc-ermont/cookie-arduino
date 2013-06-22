@@ -21,11 +21,11 @@
  SdOut sd = SdOut();
  CapteurAnalog pile (ID_CAPT_PILE, 0);
  
- unsigned long timer, timeralt;
+ unsigned long timer, timeralt, timer_watchdog, delta_watchdog = 0;
  bool refreshed = false;
  
    byte check_alt = 0;
-Servo servo();
+  Servo servo;
  
 void setup() {
 //#if SERIAL_DEBUG
@@ -65,6 +65,8 @@ delay(1000);*/
    //Serial1.begin(GPS_BAUDRATE);
    timer = millis();
    timeralt = millis();
+   servo.attach(PIN_SER);
+   servo.write(170);
 }
            
 void loop(){
@@ -88,9 +90,6 @@ void loop(){
      temp.refresh();
      pile.refresh();
      refreshed = true;
-     /*debug("drg");
-     //gps.refresh();
-     debug("frg");*/
    } 
    if (Serial.available() > 0){
      gps.refresh();
@@ -101,15 +100,15 @@ void loop(){
      long unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
      int altpress = atoi(press.getValue(0));
 
-     if((altgps > (unsigned long int)25000) || (altpress < 500)){
+     if((altgps > (unsigned long int)20000) || (altpress < 55)){
        check_alt++;
      } else {
        check_alt = 0;
      }
    }
-   if (check_alt > 60){
+   if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > TIME_WATCHDOG )){
        check_alt = 0;
-
+     servo.write(130);
      digitalWrite(13, HIGH);
    }
    

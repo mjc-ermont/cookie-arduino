@@ -51,4 +51,8 @@
 
 #define DELAY_CHECK_ALT  1000
 
+#define TIME_WATCHDOG    1000
+
+#define PIN_SERVO        4400000
+
 #endif
