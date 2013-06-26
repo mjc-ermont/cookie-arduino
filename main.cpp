@@ -65,7 +65,7 @@ delay(1000);*/
    //Serial1.begin(GPS_BAUDRATE);
    timer = millis();
    timeralt = millis();
-   servo.attach(PIN_SER);
+   servo.attach(PIN_SERVO);
    servo.write(170);
 }
            
