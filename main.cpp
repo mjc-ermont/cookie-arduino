@@ -1,6 +1,6 @@
  #include <Wire.h>
  #include <SD.h>
- #include <Servo.h>
+ //#include <Servo.h>
  #include "trame.h"
  #include "gps.h"
  #include "defines.h"
@@ -25,7 +25,7 @@
  bool refreshed = false;
  
    byte check_alt = 0;
-  Servo servo;
+  //Servo servo;
  
 void setup() {
 //#if SERIAL_DEBUG
@@ -38,6 +38,7 @@ digitalWrite(2, LOW);
 delay(1000);*/
     pinMode(SD_CS_PIN, OUTPUT);
     pinMode(13, OUTPUT);
+    pinMode(PIN_SERVO, OUTPUT);
 
    so.init();
    sd.init();
@@ -65,8 +66,10 @@ delay(1000);*/
    //Serial1.begin(GPS_BAUDRATE);
    timer = millis();
    timeralt = millis();
-   servo.attach(PIN_SERVO);
-   servo.write(170);
+   //servo.attach(PIN_SERVO);
+   Serial.println("write");
+   //servo.write(100);
+   Serial.println("fin rite");
 }
            
 void loop(){
@@ -106,11 +109,11 @@ void loop(){
        check_alt = 0;
      }
    }
-   if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > TIME_WATCHDOG )){
+   /*if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > (unsigned long)TIME_WATCHDOG )){
        check_alt = 0;
-     servo.write(130);
+     //servo.write(130);
      digitalWrite(13, HIGH);
-   }
+   }*/
    
    //debug("f");
 }
