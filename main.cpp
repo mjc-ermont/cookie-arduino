@@ -1,6 +1,6 @@
  #include <Wire.h>
  #include <SD.h>
- //#include <Servo.h>
+ #include <Servo.h>
  #include "trame.h"
  #include "gps.h"
  #include "defines.h"
@@ -21,28 +21,19 @@
  SdOut sd = SdOut();
  CapteurAnalog pile (ID_CAPT_PILE, 0);
  
- unsigned long timer, timeralt, timer_watchdog, delta_watchdog = 0;
+ unsigned long int timer, timeralt, timer_watchdog, delta_watchdog = 0;
  bool refreshed = false;
  
    byte check_alt = 0;
   //Servo servo;
  
 void setup() {
-//#if SERIAL_DEBUG
-   //Serial.begin(SERIAL_BAUDRATE);
-//#endif
-/*pinMode (2, OUTPUT);
-digitalWrite(2, HIGH);
-delay(1000);
-digitalWrite(2, LOW);
-delay(1000);*/
-    pinMode(SD_CS_PIN, OUTPUT);
-    pinMode(13, OUTPUT);
-    pinMode(PIN_SERVO, OUTPUT);
+   pinMode(SD_CS_PIN, OUTPUT);
+   pinMode(13, OUTPUT);
+   pinMode(PIN_SERVO, OUTPUT);
 
    so.init();
    sd.init();
-   pinMode(13, OUTPUT);
    press.init();
    pressext.init();
    gps.init();
@@ -67,9 +58,9 @@ delay(1000);*/
    timer = millis();
    timeralt = millis();
    //servo.attach(PIN_SERVO);
-   Serial.println("write");
+   Serial.println(F("write"));
    //servo.write(100);
-   Serial.println("fin rite");
+   Serial.println(F("fin rite"));
 }
            
 void loop(){
@@ -109,11 +100,11 @@ void loop(){
        check_alt = 0;
      }
    }
-   /*if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > (unsigned long)TIME_WATCHDOG )){
+   if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > (unsigned long)TIME_WATCHDOG )){
        check_alt = 0;
      //servo.write(130);
      digitalWrite(13, HIGH);
-   }*/
+   }
    
    //debug("f");
 }
