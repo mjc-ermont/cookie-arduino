@@ -53,6 +53,6 @@
 
 #define TIME_WATCHDOG    4400000
 
-#define PIN_SERVO        9
+#define PIN_SERVO        5
 
 #endif
