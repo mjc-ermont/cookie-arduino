@@ -21,8 +21,8 @@
  SdOut sd = SdOut();
  CapteurAnalog pile (ID_CAPT_PILE, 0);
  
- unsigned long int timer, timeralt, timer_watchdog, delta_watchdog = 0;
- bool refreshed = false;
+ unsigned long int timer, timeralt, delta_watchdog = 0;
+ bool refreshed = false, launched = false;
  
    byte check_alt = 0;
   Servo servo;
@@ -59,7 +59,7 @@ void setup() {
    timeralt = millis();
    servo.attach(PIN_SERVO);
    Serial.println(F("write"));
-   servo.write(100);
+   servo.write(30);
    Serial.println(F("fin rite"));
 }
            
@@ -100,9 +100,10 @@ void loop(){
        check_alt = 0;
      }
    }
-   if ((check_alt > 60) || ((timer_watchdog - delta_watchdog) > (unsigned long)TIME_WATCHDOG )){
+   if ((check_alt > 60) || ((millis() - delta_watchdog) > (unsigned long)TIME_WATCHDOG ) && (!(launched))){
        check_alt = 0;
-     servo.write(130);
+       servo.write(3);
+       launched = true;
      digitalWrite(13, HIGH);
    }
    
