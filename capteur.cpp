@@ -46,14 +46,9 @@ void Capteur::getTrame(){
     strcat(trame, "$@");                             // separaeur + fin
  
     for (byte j = 0 ; j < _nb_out ; j++){   // envoi de la trame a toutes les sorties (d'ou le for)
-      //_out[j]->addTrame(trame);                 // Ajout de la trame a la file d'envoi
-      //debug("debut_send");
       _out[j]->writeQueue(trame);                    // écriture sur la sortie de la file d'envoi 
-      //debug("fin_send");
     }
-    //debug("ftt");
   }
-  //Serial.flush();
   free(trame);
 }
 

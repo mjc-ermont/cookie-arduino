@@ -58,9 +58,8 @@ void setup() {
    timer = millis();
    timeralt = millis();
    servo.attach(PIN_SERVO);
-   Serial.println(F("write"));
    servo.write(30);
-   Serial.println(F("fin rite"));
+   delta_watchdog = millis();
 }
            
 void loop(){
@@ -74,9 +73,10 @@ void loop(){
      pressext.getTrame();
      temp.getTrame();
      pile.getTrame();
-     
+
      timer = millis();
    } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
+     
      accel.refresh();
      hum.refresh();
      press.refresh();
@@ -90,7 +90,6 @@ void loop(){
    }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
-     digitalWrite(13, HIGH);
      long unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
      int altpress = atoi(press.getValue(0));
 
@@ -104,7 +103,7 @@ void loop(){
        check_alt = 0;
        servo.write(3);
        launched = true;
-     digitalWrite(13, HIGH);
+       digitalWrite(13, HIGH);
    }
    
    //debug("f");

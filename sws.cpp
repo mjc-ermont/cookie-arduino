@@ -301,7 +301,7 @@ inline void SoftwareSerial::handle_interrupt()
   }
 }
 
-#if defined(PCINT0_vect)
+/*#if defined(PCINT0_vect)
 ISR(PCINT0_vect)
 {
   SoftwareSerial::handle_interrupt();
@@ -327,11 +327,12 @@ ISR(PCINT3_vect)
 {
   SoftwareSerial::handle_interrupt();
 }
-#endif
+#endif*/
 
 //
 // Constructor
 //
+
 SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic /* = false */) : 
   /*_rx_delay_centering(0),
   _rx_delay_intrabit(0),
@@ -450,9 +451,9 @@ size_t SoftwareSerial::write(uint8_t b)
     return 0;
   }
 
-  uint8_t oldSREG = SREG;
+  /*uint8_t oldSREG = SREG;
   cli();  // turn off interrupts for a clean txmit
-
+*/
   // Write the start bit
   tx_pin_write(_inverse_logic ? HIGH : LOW);
   tunedDelay(_tx_delay + XMIT_START_ADJUSTMENT);
@@ -487,7 +488,7 @@ size_t SoftwareSerial::write(uint8_t b)
     tx_pin_write(HIGH); // restore pin to natural state
   }
 
-  SREG = oldSREG; // turn interrupts back on
+  //SREG = oldSREG; // turn interrupts back on
   tunedDelay(_tx_delay);
   
   return 1;
