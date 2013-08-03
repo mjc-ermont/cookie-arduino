@@ -22,6 +22,7 @@
  CapteurAnalog pile (ID_CAPT_PILE, 0);
  
  unsigned long int timer, timeralt, delta_watchdog = 0;
+ long int nb_trames = -1;
  bool refreshed = false, launched = false;
  
    byte check_alt = 0;
@@ -31,7 +32,7 @@ void setup() {
    pinMode(10, OUTPUT);
    pinMode(13, OUTPUT);
    pinMode(PIN_SERVO, OUTPUT);
-
+   pinMode (PIN_JACK, INPUT_PULLUP);
    so.init();
    sd.init();
    press.init();
@@ -59,14 +60,16 @@ void setup() {
    timeralt = millis();
    servo.attach(PIN_SERVO);
    servo.write(30);
-   delta_watchdog = millis();
 }
            
 void loop(){
    //debug("d");
+   if ((digitalRead(PIN_JACK) == HIGH) && (nb_trames == -1)){
+     nb_trames = 0;
+   }
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
-     gps.getTrame();
+     //gps.getTrame();
      accel.getTrame();
      hum.getTrame();
      press.getTrame();
@@ -75,6 +78,11 @@ void loop(){
      pile.getTrame();
 
      timer = millis();
+     if (nb_trames != -1) {
+       nb_trames++;
+     }
+     Serial.println();
+     Serial.println(nb_trames);
    } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
      
      accel.refresh();
@@ -86,7 +94,7 @@ void loop(){
      refreshed = true;
    } 
    if (Serial.available() > 0){
-     gps.refresh();
+     //gps.refresh();
    }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
@@ -99,7 +107,7 @@ void loop(){
        check_alt = 0;
      }
    }
-   if ((check_alt > 60) || ((millis() - delta_watchdog) > (unsigned long)TIME_WATCHDOG ) && (!(launched))){
+   if ((check_alt > 60) /* || ((nb_trames - delta_watchdog) > (unsigned long)NB_TRAMES_WATCHDOG )*/ && (!(launched))){
        check_alt = 0;
        servo.write(3);
        launched = true;
