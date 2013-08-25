@@ -69,7 +69,7 @@ void loop(){
    }
    if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
      refreshed = false;
-     //gps.getTrame();
+     gps.getTrame();
      accel.getTrame();
      hum.getTrame();
      press.getTrame();
@@ -94,7 +94,7 @@ void loop(){
      refreshed = true;
    } 
    if (Serial.available() > 0){
-     //gps.refresh();
+     gps.refresh();
    }
    if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
@@ -107,7 +107,7 @@ void loop(){
        check_alt = 0;
      }
    }
-   if ((check_alt > 60) /* || ((nb_trames - delta_watchdog) > (unsigned long)NB_TRAMES_WATCHDOG )*/ && (!(launched))){
+   if ((check_alt > 60) || ((nb_trames - delta_watchdog) > (unsigned long)NB_TRAMES_WATCHDOG ) && (!(launched))){
        check_alt = 0;
        servo.write(3);
        launched = true;
