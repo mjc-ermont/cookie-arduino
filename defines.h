@@ -11,7 +11,7 @@
 #define DELAY_SEND       1000
 #define DELAY_REFRESH    800
 
-#define SERIAL_BAUDRATE  600 // baudrate de la liaison série avec le kiwi
+#define SERIAL_BAUDRATE  57600 // baudrate de la liaison série avec le kiwi
 #define NB_REPET         3    // Nombre de répéition de la trame
 #define SIZE_VALUE       8    // Longueur maxi de la valeur dans la trame
 #define ID_CAPT_GPS      0   // ID dans la trame du GPS
