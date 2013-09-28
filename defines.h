@@ -51,9 +51,9 @@
 
 #define DELAY_CHECK_ALT  1000
 
-#define NB_TRAMES_WATCHDOG    500  //4400000
+#define NB_TRAMES_WATCHDOG    10  //4400000
 
-#define PIN_SERVO        5
+#define PIN_SERVO        9
 
 #define PIN_JACK        6
 
