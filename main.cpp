@@ -1,5 +1,6 @@
  #include <Wire.h>
  #include <SD.h>
+ #include <Arduino.h>
  #include "trame.h"
  #include "gps.h"
  #include "defines.h"
