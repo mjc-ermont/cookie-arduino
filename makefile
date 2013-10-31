@@ -103,6 +103,7 @@ $(CURDIR)/temp.cpp \
 $(CURDIR)/trame.cpp \
 $(CURDIR)/sws.cpp \
 $(CURDIR)/TinyGPS.cpp \
+$(CURDIR)/PWMServo.cpp \
 
 
 CXX_APP = main.cpp
