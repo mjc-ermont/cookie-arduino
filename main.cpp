@@ -1,42 +1,39 @@
-#include <Wire.h>
-#include <SD.h>
-#include <Arduino.h>
-#include "trame.h"
-#include "gps.h"
-#include "defines.h"
-#include "accel.h"
-#include "humidity.h"
-#include "pression.h"
-#include "temp.h"
-#include "serial_out.h"
-#include "sd_out.h"
-#include "PWMServo.h"
-#include "FCOEV2.h"
+ #include <Wire.h>
+ #include <SD.h>
+ #include <Arduino.h>
+ #include "trame.h"
+ #include "gps.h"
+ #include "defines.h"
+ #include "accel.h"
+ #include "humidity.h"
+ #include "pression.h"
+ #include "temp.h"
+ #include "serial_out.h"
+ #include "sd_out.h"
+ #include "PWMServo.h"
  
-FCOEV2 fcoev2(PIN_SERVO);
-GPS gps = GPS(ID_CAPT_GPS);
-Accel accel = Accel(ID_CAPT_ACCEL);
-Hum hum = Hum(ID_CAPT_HUM);
-Press press = Press(ID_CAPT_PRESS, PIN_PRESS);
-Press pressext = Press(ID_CAPT_PRESSEXT, PIN_PRESSEXT);
-Temp temp = Temp(ID_CAPT_TEMP, PIN_TEMP);
-SerialOut so = SerialOut();
-SdOut sd = SdOut();
-CapteurAnalog pile (ID_CAPT_PILE, 0);
-
-unsigned long int timer, timeralt;
-long int nb_trames = -1, delta_watchdog = 0;
-bool refreshed = false, launched = false;
+ GPS gps = GPS(ID_CAPT_GPS);
+ Accel accel = Accel(ID_CAPT_ACCEL);
+ Hum hum = Hum(ID_CAPT_HUM);
+ Press press = Press(ID_CAPT_PRESS, PIN_PRESS);
+ Press pressext = Press(ID_CAPT_PRESSEXT, PIN_PRESSEXT);
+ Temp temp = Temp(ID_CAPT_TEMP, PIN_TEMP);
+ SerialOut so = SerialOut();
+ SdOut sd = SdOut();
+ CapteurAnalog pile (ID_CAPT_PILE, 0);
  
-byte check_alt = 0;
-//PWMServo servo;
+ unsigned long int timer, timeralt;
+ long int nb_trames = -1, delta_watchdog = 0;
+ bool refreshed = false, launched = false;
+ 
+   byte check_alt = 0;
+  PWMServo servo;
  
 void setup() {
    pinMode(10, OUTPUT);
    pinMode(13, OUTPUT);
    pinMode(PIN_SERVO, OUTPUT);
-   pinMode (PIN_JACK, INPUT);
-   digitalWrite(PIN_JACK, 1);
+   pinMode (PIN_JACK, INPUT_PULLUP);
    so.init();
    sd.init();
    press.init();
@@ -62,11 +59,9 @@ void setup() {
    //Serial1.begin(GPS_BAUDRATE);
    timer = millis();
    timeralt = millis();
-   //servo.attach(PIN_SERVO);
-   //servo.write(70);
-   fcoev2.switchOn();
-   fcoev2.switchToMode(MODE_PHOTO_SERIAL);
-   fcoev2.toggleAction();
+   servo.attach(PIN_SERVO);
+   servo.write(70);
+   
 }
            
 void loop(){
@@ -116,7 +111,7 @@ void loop(){
    }
    if (((check_alt > 60) || ((nb_trames - delta_watchdog) > (long)NB_TRAMES_WATCHDOG )) && (!(launched))){
        check_alt = 0;
-       //servo.write(40);
+       servo.write(40);
        launched = true;
        digitalWrite(13, HIGH);
    }
