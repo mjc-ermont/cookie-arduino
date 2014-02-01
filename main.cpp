@@ -1,6 +1,4 @@
  #include <Wire.h>
- #include <SD.h>
- #include <Arduino.h>
  #include "trame.h"
  #include "gps.h"
  #include "defines.h"
@@ -23,17 +21,17 @@
  CapteurAnalog pile (ID_CAPT_PILE, 0);
  
  unsigned long int timer, timeralt;
- long int nb_trames = -1, delta_watchdog = 0;
+ int nb_trames = -1;
  bool refreshed = false, launched = false;
- 
-   byte check_alt = 0;
-  PWMServo servo;
+ byte check_alt = 0;
+ PWMServo servo;
  
 void setup() {
-   pinMode(10, OUTPUT);
-   pinMode(13, OUTPUT);
-   pinMode(PIN_SERVO, OUTPUT);
-   pinMode (PIN_JACK, INPUT_PULLUP);
+   pinMode((byte)10, OUTPUT);
+   pinMode((byte)13, OUTPUT);
+   pinMode((byte)PIN_SERVO, OUTPUT);
+   pinMode ((byte)PIN_JACK, INPUT);
+   digitalWrite((byte)PIN_JACK, HIGH);
    so.init();
    sd.init();
    press.init();
@@ -60,7 +58,7 @@ void setup() {
    timer = millis();
    timeralt = millis();
    servo.attach(PIN_SERVO);
-   servo.write(70);
+   servo.write((byte)70);
    
 }
            
@@ -69,7 +67,8 @@ void loop(){
    if ((digitalRead(PIN_JACK) == HIGH) && (nb_trames == -1)){
      nb_trames = 0;
    }
-   if ( ((millis() - timer) >= (unsigned long)DELAY_SEND) && (refreshed) ){
+   
+   if ( ((millis() - timer) >= (unsigned int)DELAY_SEND) && (refreshed) ){
      refreshed = false;
      gps.getTrame();
      accel.getTrame();
@@ -85,8 +84,7 @@ void loop(){
      }
      Serial.println();
      Serial.println(nb_trames);
-   } else if ( ((millis() - timer) >= (unsigned long)DELAY_REFRESH) && (!(refreshed)) ) {
-     
+   } else if ( ((millis() - timer) >= (unsigned int)DELAY_REFRESH) && (!(refreshed)) ) {
      accel.refresh();
      hum.refresh();
      press.refresh();
@@ -98,20 +96,22 @@ void loop(){
    if (Serial.available() > 0){
      gps.refresh();
    }
-   if ( ((millis() - timeralt) >= (unsigned long)DELAY_CHECK_ALT) && (!(refreshed)) ){
+   
+   if (((millis() - timeralt) >= (unsigned int)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
-     long unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
-     int altpress = atoi(press.getValue(0));
+     unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
+     unsigned int altpress = atoi(press.getValue(0));
 
-     if((altgps > (unsigned long int)20000) || (altpress < 55)){
+     if((altgps > (unsigned int)20000) || (altpress < 55)){
        check_alt++;
      } else {
        check_alt = 0;
      }
    }
-   if (((check_alt > 60) || ((nb_trames - delta_watchdog) > (long)NB_TRAMES_WATCHDOG )) && (!(launched))){
+   
+   if (((check_alt > 60) || (nb_trames > (int)NB_TRAMES_WATCHDOG)) && (!(launched))){
        check_alt = 0;
-       servo.write(40);
+       servo.write((byte)40);
        launched = true;
        digitalWrite(13, HIGH);
    }

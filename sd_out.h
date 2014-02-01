@@ -1,6 +1,7 @@
 #ifndef SDOUT_INCLUDED
 #define SDOUT_INCLUDED
-#include <SD.h>
+#include "Fat16.h"
+#include "Fat16util.h"
 #include <Arduino.h>
 #include "out.h"
 
