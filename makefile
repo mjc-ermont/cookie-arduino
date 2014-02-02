@@ -104,6 +104,8 @@ $(CURDIR)/trame.cpp \
 $(CURDIR)/sws.cpp \
 $(CURDIR)/TinyGPS.cpp \
 $(CURDIR)/PWMServo.cpp \
+$(CURDIR)/Fat16.cpp \
+$(CURDIR)/SdCard.cpp \
 
 
 CXX_APP = main.cpp
