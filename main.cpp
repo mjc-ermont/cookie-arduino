@@ -4,24 +4,23 @@
  #include "defines.h"
  #include "accel.h"
  #include "humidity.h"
- #include "pression.h"
- #include "temp.h"
  #include "serial_out.h"
  #include "sd_out.h"
  #include "PWMServo.h"
+ #include "capteur_analog.h"
  
  GPS gps = GPS(ID_CAPT_GPS);
  Accel accel = Accel(ID_CAPT_ACCEL);
  Hum hum = Hum(ID_CAPT_HUM);
- Press press = Press(ID_CAPT_PRESS, PIN_PRESS);
- Press pressext = Press(ID_CAPT_PRESSEXT, PIN_PRESSEXT);
- Temp temp = Temp(ID_CAPT_TEMP, PIN_TEMP);
+ CapteurAnalog press = CapteurAnalog(ID_CAPT_PRESS, PIN_PRESS);
+ CapteurAnalog pressext = CapteurAnalog(ID_CAPT_PRESSEXT, PIN_PRESSEXT);
+ CapteurAnalog temp = CapteurAnalog(ID_CAPT_TEMP, PIN_TEMP);
  SerialOut so = SerialOut();
  SdOut sd = SdOut();
- CapteurAnalog pile (ID_CAPT_PILE, 0);
+ CapteurAnalog pile (ID_CAPT_PILE, (byte)0);
  
  unsigned long int timer, timeralt;
- int nb_trames = -1;
+ unsigned short int nb_trames = -1;
  bool refreshed = false, launched = false;
  byte check_alt = 0;
  PWMServo servo;
@@ -82,8 +81,6 @@ void loop(){
      if (nb_trames != -1) {
        nb_trames++;
      }
-     Serial.println();
-     Serial.println(nb_trames);
    } else if ( ((millis() - timer) >= (unsigned int)DELAY_REFRESH) && (!(refreshed)) ) {
      accel.refresh();
      hum.refresh();
@@ -109,7 +106,7 @@ void loop(){
      }
    }
    
-   if (((check_alt > 60) || (nb_trames > (int)NB_TRAMES_WATCHDOG)) && (!(launched))){
+   if (((check_alt > (byte)60) || (nb_trames > (int)NB_TRAMES_WATCHDOG)) && (!(launched))){
        check_alt = 0;
        servo.write((byte)40);
        launched = true;

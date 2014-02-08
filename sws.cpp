@@ -59,7 +59,7 @@ DELAY_TABLE;
 
 static const DELAY_TABLE PROGMEM table[] = 
 {
-  //  baud    rxcenter   rxintra    rxstop    tx
+/*  //  baud    rxcenter   rxintra    rxstop    tx
   { 
     115200,   1,         17,        17,       12,      }
   ,
@@ -92,13 +92,13 @@ static const DELAY_TABLE PROGMEM table[] =
   ,
   { 
     1200,     947,       1902,      1902,     1899,    }
-  ,
+  ,*/
   { 
     600,      1902,      3804,      3804,     3800,    }
   ,
-  { 
+  /*{ 
     300,      3804,      7617,      7617,     7614,    }
-  ,
+  ,*/
 };
 
 const int XMIT_START_ADJUSTMENT = 5;
@@ -108,7 +108,7 @@ const int XMIT_START_ADJUSTMENT = 5;
 static const DELAY_TABLE table[] PROGMEM = 
 {
   //  baud    rxcenter    rxintra    rxstop  tx
-  { 
+  /*{ 
     115200,   1,          5,         5,      3,        }
   ,
   { 
@@ -140,13 +140,13 @@ static const DELAY_TABLE table[] PROGMEM =
   ,
   { 
     1200,     467,        948,       948,    945,      }
-  ,
+  ,*/
   { 
     600,      948,        1895,      1895,   1890,     }
   ,
-  { 
+  /*{ 
     300,      1895,       3805,      3805,   3802,     }
-  ,
+  ,*/
 };
 
 const int XMIT_START_ADJUSTMENT = 4;
@@ -159,7 +159,7 @@ const int XMIT_START_ADJUSTMENT = 4;
 static const DELAY_TABLE PROGMEM table[] =
 {
   //  baud    rxcenter    rxintra    rxstop  tx
-  { 
+  /*{ 
     115200,   3,          21,        21,     18,       }
   ,
   { 
@@ -191,13 +191,13 @@ static const DELAY_TABLE PROGMEM table[] =
   ,
   { 
     1200,     1187,       2379,      2379,   2376,     }
-  ,
+  ,*/
   { 
     600,      2379,       4759,      4759,   4755,     }
   ,
-  { 
+  /*{ 
     300,      4759,       9523,      9523,   9520,     }
-  ,
+  ,*/
 };
 
 const int XMIT_START_ADJUSTMENT = 6;
@@ -221,7 +221,7 @@ SoftwareSerial *SoftwareSerial::active_object = 0;
 //
 // This function generates a brief pulse
 // for debugging or measuring on an oscilloscope.
-inline void DebugPulse(uint8_t pin, uint8_t count)
+/*inline void DebugPulse(uint8_t pin, uint8_t count)
 {
 #if _DEBUG
   volatile uint8_t *pport = portOutputRegister(digitalPinToPort(pin));
@@ -233,7 +233,7 @@ inline void DebugPulse(uint8_t pin, uint8_t count)
     *pport = val;
   }
 #endif
-}
+}*/
 
 //
 // Private methods
@@ -259,7 +259,7 @@ inline void SoftwareSerial::tunedDelay(uint16_t delay) {
 // one and returns true if it replaces another 
 bool SoftwareSerial::listen()
 {
-  /*  if (active_object != this)
+   /* if (active_object != this)
    {
    _buffer_overflow = false;
    uint8_t oldSREG = SREG;

@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 #define _GPS_NO_STATS
-#define _GPS_VERSION 12 // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
 #define _GPS_MPS_PER_KNOT 0.51444444
 #define _GPS_KMPH_PER_KNOT 1.852
@@ -65,20 +64,20 @@ public:
   inline long altitude() { return _altitude; }
 
   // course in last full GPRMC sentence in 100th of a degree
-  inline unsigned long course() { return _course; }
+  //inline unsigned long course() { return _course; }
 
   // speed in last full GPRMC sentence in 100ths of a knot
   inline unsigned long speed() { return _speed; }
 
   // satellites used in last full GPGGA sentence
-  inline unsigned short satellites() { return _numsats; }
+  //inline unsigned short satellites() { return _numsats; }
 
   // horizontal dilution of precision in 100ths
-  inline unsigned long hdop() { return _hdop; }
+  //inline unsigned long hdop() { return _hdop; }
 
-  void f_get_position(float *latitude, float *longitude, unsigned long *fix_age = 0);
-  void crack_datetime(int *year, byte *month, byte *day, 
-    byte *hour, byte *minute, byte *second, byte *hundredths = 0, unsigned long *fix_age = 0);
+  //void f_get_position(float *latitude, float *longitude, unsigned long *fix_age = 0);
+  /*void crack_datetime(int *year, byte *month, byte *day, 
+    byte *hour, byte *minute, byte *second, byte *hundredths = 0, unsigned long *fix_age = 0);*/
 /*  float f_altitude();
   float f_course();
   float f_speed_knots();
@@ -86,11 +85,10 @@ public:
   float f_speed_mps();
   float f_speed_kmph();*/
 
-  static int library_version() { return _GPS_VERSION; }
 
-  static float distance_between (float lat1, float long1, float lat2, float long2);
+  /*static float distance_between (float lat1, float long1, float lat2, float long2);
   static float course_to (float lat1, float long1, float lat2, float long2);
-  static const char *cardinal(float course);
+  static const char *cardinal(float course);*/
 
 #ifndef _GPS_NO_STATS
   void stats(unsigned long *chars, unsigned short *good_sentences, unsigned short *failed_cs);
@@ -106,9 +104,9 @@ private:
   long _longitude, _new_longitude;
   long _altitude, _new_altitude;
   unsigned long  _speed, _new_speed;
-  unsigned long  _course, _new_course;
-  unsigned long  _hdop, _new_hdop;
-  unsigned short _numsats, _new_numsats;
+  //nsigned long  _course, _new_course;
+  //unsigned long  _hdop, _new_hdop;
+  //unsigned short _numsats, _new_numsats;
 
   unsigned long _last_time_fix, _new_time_fix;
   unsigned long _last_position_fix, _new_position_fix;

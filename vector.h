@@ -5,8 +5,8 @@
 // Minimal class to replace std::vector
 template<typename Data>
 class Vector {
-   size_t d_size; // Stores no. of actually stored objects
-   size_t d_capacity; // Stores allocated capacity
+   byte d_size; // Stores no. of actually stored objects
+   byte d_capacity; // Stores allocated capacity
    Data *d_data; // Stores data
    public:
      Vector() : d_size(0), d_capacity(0), d_data(0) {}; // Default constructor

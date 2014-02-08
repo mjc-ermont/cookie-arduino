@@ -43,10 +43,7 @@ class PWMServo
                              // attach to a pin, sets pinMode, returns 0 on failure, won't
                              // position the servo until a subsequent write() happens
                              // Only works for 9 and 10.
-    void detach();
     void write(int);         // specify the angle in degrees, 0 to 180
-    uint8_t read();
-    uint8_t attached();
 };
 
 #endif

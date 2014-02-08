@@ -35,5 +35,5 @@ void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
   if(!f.isOpen()) {
     Serial.println(F("couldnt create "));
   }
-  f.write((uint8_t*) trame, strlen(trame) + 1);
+  f.write((uint8_t*) trame, strlen(trame));
 }

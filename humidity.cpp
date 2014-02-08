@@ -19,7 +19,7 @@ bool Hum::refresh(){    // Recuperation des valeurs du capteur
   Wire.beginTransmission(HYT371_ADDR);
   Wire.write((uint8_t)0);
   Wire.available();
-  int Ack = Wire.read(); // read a byte
+  byte Ack = Wire.read(); // read a byte
 
   Wire.endTransmission();
   delay(100);

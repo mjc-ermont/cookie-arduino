@@ -86,24 +86,6 @@ uint8_t PWMServo::attach(int pinArg, int min, int max)
   return 1;
 }
 
-void PWMServo::detach()
-{
-  // muck with timer flags
-  if (pin == 9) {
-    attached9 = 0;
-    TCCR1A = TCCR1A & ~_BV(COM1A0) & ~_BV(COM1A1);
-    pinMode(pin, INPUT);
-  } 
-  
-  if (pin == 10) {
-    attached10 = 0;
-    TCCR1A = TCCR1A & ~_BV(COM1B0) & ~_BV(COM1B1);
-    pinMode(pin, INPUT);
-  }
-
-  if (!attached9 && !attached10) releaseTimer1();
-}
-
 void PWMServo::write(int angleArg)
 {
   uint16_t p;
@@ -118,16 +100,4 @@ void PWMServo::write(int angleArg)
   p = (min16*16L*clockCyclesPerMicrosecond() + (max16-min16)*(16L*clockCyclesPerMicrosecond())*angle/180L)/8L;
   if (pin == 9) OCR1A = p;
   if (pin == 10) OCR1B = p;
-}
-
-uint8_t PWMServo::read()
-{
-  return angle;
-}
-
-uint8_t PWMServo::attached()
-{
-  if (pin == 9 && attached9) return 1;
-  if (pin == 10 && attached10) return 1;
-  return 0;
 }
