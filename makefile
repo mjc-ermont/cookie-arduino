@@ -96,10 +96,8 @@ $(CURDIR)/capteur_analog.cpp \
 $(CURDIR)/gps.cpp \
 $(CURDIR)/humidity.cpp \
 $(CURDIR)/out.cpp \
-$(CURDIR)/pression.cpp \
 $(CURDIR)/sd_out.cpp \
 $(CURDIR)/serial_out.cpp \
-$(CURDIR)/temp.cpp \
 $(CURDIR)/trame.cpp \
 $(CURDIR)/sws.cpp \
 $(CURDIR)/TinyGPS.cpp \
