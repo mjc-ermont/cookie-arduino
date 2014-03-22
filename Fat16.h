@@ -146,14 +146,14 @@ class Fat16 : public Print {
   /** create with file closed */
   Fat16(void) : flags_(0) {}
   /** \return The current cluster number. */
-  fat_t curCluster(void) const {return curCluster_;}
-  uint8_t close(void);
+  //fat_t curCluster(void) const {return curCluster_;}
+  //uint8_t close(void);
   /** \return The count of clusters in the FAT16 volume. */
-  static fat_t clusterCount(void) {return clusterCount_;}
+  //static fat_t clusterCount(void) {return clusterCount_;}
   /** \return The number of 512 byte blocks in a cluster */
-  static uint8_t clusterSize(void) {return blocksPerCluster_;}
+  //static uint8_t clusterSize(void) {return blocksPerCluster_;}
   /** \return The current file position. */
-  uint32_t curPosition(void) const {return curPosition_;}
+  //uint32_t curPosition(void) const {return curPosition_;}
   /**
    * Set the date/time callback function
    *
@@ -182,18 +182,18 @@ class Fat16 : public Print {
    *
    * See the timestamp() function.
    */
-  static void dateTimeCallback(
+  /*static void dateTimeCallback(
     void (*dateTime)(uint16_t* date, uint16_t* time)) {
     dateTime_ = dateTime;
-  }
+  }*/
   /**
    * Cancel the date/time callback function.
    */
-  static void dateTimeCallbackCancel(void) {dateTime_ = NULL;}
-  uint8_t dirEntry(dir_t* dir);
+  /*static void dateTimeCallbackCancel(void) {dateTime_ = NULL;}*/
+  //uint8_t dirEntry(dir_t* dir);
 
   /** \return The file's size in bytes. */
-  uint32_t fileSize(void) const {return fileSize_;}
+  //uint32_t fileSize(void) const {return fileSize_;}
   static uint8_t init(SdCard* dev, uint8_t part);
   /**
    *  Initialize a FAT16 volume.
@@ -217,20 +217,20 @@ class Fat16 : public Print {
    * \return The value true if a file is open otherwise false;
    */
   uint8_t isOpen(void) const {return (flags_ & O_ACCMODE) != 0;}
-  static void ls(uint8_t flags = 0);
+  //static void ls(uint8_t flags = 0);
   uint8_t open(const char* fileName, uint8_t oflag);
   uint8_t open(uint16_t entry, uint8_t oflag);
-  static void printDirName(const dir_t& dir, uint8_t width);
+  /*static void printDirName(const dir_t& dir, uint8_t width);
   static void printFatDate(uint16_t fatDate);
   static void printFatTime(uint16_t fatTime);
-  static void printTwoDigits(uint8_t v);
-  int16_t read(void);
-  int16_t read(void* buf, uint16_t nbyte);
-  static uint8_t readDir(dir_t* dir, uint16_t* index,
-                    uint8_t skip = (DIR_ATT_VOLUME_ID | DIR_ATT_DIRECTORY));
+  static void printTwoDigits(uint8_t v);*/
+  //int16_t read(void);
+  //int16_t read(void* buf, uint16_t nbyte);
+  /*static uint8_t readDir(dir_t* dir, uint16_t* index,
+                    uint8_t skip = (DIR_ATT_VOLUME_ID | DIR_ATT_DIRECTORY));*/
 
-  uint8_t remove(void);
-  static uint8_t remove(const char* fileName);
+  //uint8_t remove(void);
+  //static uint8_t remove(const char* fileName);
   /** Sets the file's current position to zero. */
   void rewind(void) {curPosition_ = curCluster_ = 0;}
   /** \return The number of entries in the root directory. */
@@ -241,8 +241,8 @@ class Fat16 : public Print {
   uint8_t seekEnd(void) {return seekSet(fileSize_);}
   uint8_t seekSet(uint32_t pos);
   uint8_t sync(void);
-  uint8_t timestamp(uint8_t flag, uint16_t year, uint8_t month, uint8_t day,
-          uint8_t hour, uint8_t minute, uint8_t second);
+  /*uint8_t timestamp(uint8_t flag, uint16_t year, uint8_t month, uint8_t day,
+          uint8_t hour, uint8_t minute, uint8_t second);*/
   uint8_t truncate(uint32_t size);
   /** Fat16::writeError is set to true if an error occurs during a write().
    * Set Fat16::writeError to false before calling print() and/or write() and check
@@ -257,8 +257,8 @@ class Fat16 : public Print {
   size_t write(uint8_t b);
   int16_t write(const char* str);
 #endif  // ARDUINO < 100
-  void write_P(PGM_P str);
-  void writeln_P(PGM_P str);
+  //void write_P(PGM_P str);
+  //void writeln_P(PGM_P str);
 //------------------------------------------------------------------------------
 #if FAT16_DEBUG_SUPPORT
   /** For debug only.  Do not use in applications. */
@@ -339,7 +339,7 @@ class Fat16 : public Print {
   static uint32_t cacheMirrorBlock_;  // mirror block for second FAT
 
   // callback function for date/time
-  static void (*dateTime_)(uint16_t* date, uint16_t* time);
+  //static void (*dateTime_)(uint16_t* date, uint16_t* time);
 
   // define fields in flags_
   static uint8_t const F_OFLAG = O_ACCMODE | O_APPEND | O_SYNC;

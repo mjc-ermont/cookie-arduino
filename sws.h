@@ -70,7 +70,7 @@ private:
 
 public:
   // public methods
-  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = false);
+  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = trueœ);
   ~SoftwareSerial();
   void begin(long speed);
   bool listen();

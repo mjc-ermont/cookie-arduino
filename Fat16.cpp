@@ -44,7 +44,7 @@ uint8_t  Fat16::cacheDirty_ = 0;        // cacheFlush() will write block if true
 uint32_t Fat16::cacheMirrorBlock_ = 0;  // mirror  block for second FAT
 //------------------------------------------------------------------------------
 // callback function for date/time
-void (*Fat16::dateTime_)(uint16_t* date, uint16_t* time) = NULL;
+//void (*Fat16::dateTime_)(uint16_t* date, uint16_t* time) = NULL;
 
 #if ALLOW_DEPRECATED_FUNCTIONS
 void (*Fat16::oldDateTime_)(uint16_t& date, uint16_t& time) = NULL;  // NOLINT
@@ -152,11 +152,11 @@ uint8_t Fat16::cacheRawBlock(uint32_t blockNumber, uint8_t action) {
  * the value zero, false, is returned for failure.
  * Reasons for failure include no file is open or an I/O error.
  */
-uint8_t Fat16::close(void) {
+/*uint8_t Fat16::close(void) {
   if (!sync()) return false;
   flags_ = 0;
   return true;
-}
+}*/
 //------------------------------------------------------------------------------
 /**
  * Return a files directory entry
@@ -166,13 +166,13 @@ uint8_t Fat16::close(void) {
  * \return The value one, true, is returned for success and
  * the value zero, false, is returned for failure.
  */
-uint8_t Fat16::dirEntry(dir_t* dir) {
+/*uint8_t Fat16::dirEntry(dir_t* dir) {
   if (!sync()) return false;
   dir_t* p = cacheDirEntry(dirEntryIndex_, CACHE_FOR_WRITE);
   if (!p) return false;
   memcpy(dir, p, sizeof(dir_t));
   return true;
-}
+}*/
 //------------------------------------------------------------------------------
 uint8_t Fat16::fatGet(fat_t cluster, fat_t* value) {
   if (cluster > (clusterCount_ + 1)) return false;
@@ -247,24 +247,24 @@ uint8_t Fat16::init(SdCard* dev, uint8_t part) {
   blocksPerFat_ = bpb->sectorsPerFat16;
   rootDirEntryCount_ = bpb->rootDirEntryCount;
   fatStartBlock_ = volumeStartBlock + bpb->reservedSectorCount;
-  rootDirStartBlock_ = fatStartBlock_ + bpb->fatCount*bpb->sectorsPerFat16;
+  rootDirStartBlock_ = fatStartBlock_ + bpb->fatCount * bpb->sectorsPerFat16;
   dataStartBlock_ = rootDirStartBlock_
-                    + ((32*bpb->rootDirEntryCount + 511)/512);
+                    + ((32 * bpb->rootDirEntryCount + 511) / 512);
   uint32_t totalBlocks = bpb->totalSectors16 ?
-                               bpb->totalSectors16 : bpb->totalSectors32;
+                         bpb->totalSectors16 : bpb->totalSectors32;
   clusterCount_ = (totalBlocks - (dataStartBlock_ - volumeStartBlock))
-                  /bpb->sectorsPerCluster;
+                  / bpb->sectorsPerCluster;
   // verify valid FAT16 volume
   if (bpb->bytesPerSector != 512       // only allow 512 byte blocks
-     || bpb->sectorsPerFat16 == 0      // zero for FAT32
-     || clusterCount_ < 4085           // FAT12 if true
-     || totalBlocks > 0X800000         // Max size for FAT16 volume
-     || bpb->reservedSectorCount == 0  // invalid volume
-     || bpb->fatCount == 0             // invalid volume
-     || bpb->sectorsPerFat16 < (clusterCount_ >> 8)  // invalid volume
-     || bpb->sectorsPerCluster == 0   // invalid volume
-        // power of 2 test
-     || bpb->sectorsPerCluster & (bpb->sectorsPerCluster - 1)) {
+      || bpb->sectorsPerFat16 == 0      // zero for FAT32
+      || clusterCount_ < 4085           // FAT12 if true
+      || totalBlocks > 0X800000         // Max size for FAT16 volume
+      || bpb->reservedSectorCount == 0  // invalid volume
+      || bpb->fatCount == 0             // invalid volume
+      || bpb->sectorsPerFat16 < (clusterCount_ >> 8)  // invalid volume
+      || bpb->sectorsPerCluster == 0   // invalid volume
+      // power of 2 test
+      || bpb->sectorsPerCluster & (bpb->sectorsPerCluster - 1)) {
     // not a usable FAT16 bpb
     return false;
   }
@@ -383,14 +383,14 @@ uint8_t Fat16::open(const char* fileName, uint8_t oflag) {
   memcpy(p->name, dname, 11);
 
   // set timestamps
-  if (dateTime_) {
+  /*if (dateTime_) {
     // call user function
     dateTime_(&p->creationDate, &p->creationTime);
-  } else {
-    // use default date/time
-    p->creationDate = FAT_DEFAULT_DATE;
-    p->creationTime = FAT_DEFAULT_TIME;
-  }
+  } else {*/
+  // use default date/time
+  p->creationDate = FAT_DEFAULT_DATE;
+  p->creationTime = FAT_DEFAULT_TIME;
+  //}
   p->lastAccessDate = p->creationDate;
   p->lastWriteDate = p->creationDate;
   p->lastWriteTime = p->creationTime;
@@ -696,13 +696,13 @@ uint8_t Fat16::seekSet(uint32_t pos) {
     curPosition_ = 0;
     return true;
   }
-  fat_t n = ((pos - 1) >> 9)/blocksPerCluster_;
+  fat_t n = ((pos - 1) >> 9) / blocksPerCluster_;
   if (pos < curPosition_ || curPosition_ == 0) {
     // must follow chain from first cluster
     curCluster_ = firstCluster_;
   } else {
     // advance from curPosition
-    n -= ((curPosition_ - 1) >> 9)/blocksPerCluster_;
+    n -= ((curPosition_ - 1) >> 9) / blocksPerCluster_;
   }
   while (n--) {
     if (!fatGet(curCluster_, &curCluster_)) return false;
@@ -731,10 +731,10 @@ uint8_t Fat16::sync(void) {
     d->firstClusterLow = firstCluster_;
 
     // set modify time if user supplied a callback date/time function
-    if (dateTime_) {
+    /*if (dateTime_) {
       dateTime_(&d->lastWriteDate, &d->lastWriteTime);
       d->lastAccessDate = d->lastWriteDate;
-    }
+    }*/
     flags_ &= ~F_FILE_DIR_DIRTY;
   }
   return cacheFlush();
@@ -921,21 +921,21 @@ int16_t Fat16::write(const void* buf, uint16_t nbyte) {
     nToWrite -= n;
     src += n;
   }
-  if (curPosition_ > fileSize_) {
+  //if (curPosition_ > fileSize_) {
     // update fileSize and insure sync will update dir entry
     fileSize_ = curPosition_;
     flags_ |= F_FILE_DIR_DIRTY;
-  } else if (dateTime_ && nbyte) {
+  /*} else if (dateTime_ && nbyte) {
     // insure sync will update modified date and time
     flags_ |= F_FILE_DIR_DIRTY;
-  }
+  }*/
 
   if (flags_ & O_SYNC) {
     if (!sync()) goto writeErrorReturn;
   }
   return nbyte;
 
- writeErrorReturn:
+writeErrorReturn:
   writeError = true;
   return -1;
 }

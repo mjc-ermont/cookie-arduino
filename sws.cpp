@@ -559,9 +559,9 @@ size_t SoftwareSerial::write(uint8_t b)
     for (byte mask = 0x01; mask; mask <<= 1)
     {
       if (b & mask) // choose bit
-        tx_pin_write(HIGH); // send 1
+        tx_pin_write(LOW); // send 1
       else
-        tx_pin_write(LOW); // send 0
+        tx_pin_write(HIGH); // send 0
 
       tunedDelay(_tx_delay);
     }
