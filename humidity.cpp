@@ -12,8 +12,8 @@ bool Hum::init(){  // Initialisation du capteur
 }
 
 bool Hum::refresh(){    // Recuperation des valeurs du capteur
-  double Humidity;    // Valeur de l'humidite
-  double Temperature; // valeur de la temperature
+  //float Humidity;    // Valeur de l'humidite
+  //float Temperature; // valeur de la temperature
 
 
   Wire.beginTransmission(HYT371_ADDR);
@@ -28,10 +28,10 @@ bool Hum::refresh(){    // Recuperation des valeurs du capteur
   Wire.beginTransmission(HYT371_ADDR);
   Wire.requestFrom(HYT371_ADDR,4);  //Reade 1 byte
   Wire.available();
-  int b1 = Wire.read(); // read a byte
-  int b2 = Wire.read(); // read a byte
-  int b3 = Wire.read(); // read a byte
-  int b4 = Wire.read(); // read a byte
+  byte b1 = Wire.read(); // read a byte
+  byte b2 = Wire.read(); // read a byte
+  byte b3 = Wire.read(); // read a byte
+  byte b4 = Wire.read(); // read a byte
   Wire.write((uint8_t)0); //NACK
 
   // combine the bits
@@ -39,16 +39,16 @@ bool Hum::refresh(){    // Recuperation des valeurs du capteur
   // compound bitwise to get 14 bit measurement first two bits
   // are status/stall bit (see intro text)
   RawHumidBin =  (RawHumidBin &= 0x3FFF);
-  Humidity = 100.0/pow(2,14)*RawHumidBin;
+  //Humidity = 100.0/pow(2,14)*RawHumidBin;
 
   b4 = (b4 &= 0x3F); //Mask away 2 least sign. bits see HYT 221 doc
   int RawTempBin = b3 << 6 | b4;
-  Temperature = 165.0/pow(2,14)*RawTempBin-40;
+  //Temperature = 165.0/pow(2,14)*RawTempBin-40;
 
   Wire.endTransmission();
   
-  itoa((int)(Humidity*100), _val[0], 10);
-  itoa((int)(Temperature*100), _val[1], 10);
+  itoa(RawHumidBin, _val[0], 10);
+  itoa(RawTempBin, _val[1], 10);
 }
 
 /*void Hum::getTrame(){  // Envoi de la trame

@@ -43,7 +43,7 @@
 
 TARGET = $(notdir $(CURDIR))
 # Change this to match your arduino installation directory
-INSTALL_DIR = /usr/share/arduino
+INSTALL_DIR = /home/mjc/Bureau/arduino-1.0.5
 PORT = /dev/ttyACM*
 UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = arduino
@@ -60,36 +60,19 @@ AVRDUDE_PATH = /usr/bin
 #Note that if your program has dependencies other than those
 #already listed below, you will need to add them accordingly.
 C_MODULES =  \
-$(ARDUINO)/wiring_pulse.c \
 $(ARDUINO)/wiring_analog.c \
 $(ARDUINO)/wiring.c \
 $(ARDUINO)/wiring_digital.c \
-$(ARDUINO)/WInterrupts.c \
-$(ARDUINO)/wiring_shift.c \
 
 CXX_MODULES = \
-$(ARDUINO)/Tone.cpp \
-$(ARDUINO)/WMath.cpp \
 $(ARDUINO)/Print.cpp \
 $(ARDUINO)/HardwareSerial.cpp \
-$(ARDUINO)/CDC.cpp \
-$(ARDUINO)/HID.cpp \
-$(ARDUINO)/IPAddress.cpp \
 $(ARDUINO)/new.cpp \
 $(ARDUINO)/Stream.cpp \
-$(ARDUINO)/USBCore.cpp \
-$(ARDUINO)/WMath.cpp \
 $(ARDUINO)/WString.cpp \
 $(ARDUINO)/main.cpp \
-$(ARDUINO_LIB)/EEPROM/EEPROM.cpp \
 $(ARDUINO_LIB)/Wire/Wire.cpp \
 $(ARDUINO_LIB)/Wire/utility/twi.cpp \
-$(ARDUINO_LIB)/SD/SD.cpp \
-$(ARDUINO_LIB)/SD/File.cpp \
-$(ARDUINO_LIB)/SD/utility/SdVolume.cpp \
-$(ARDUINO_LIB)/SD/utility/SdFile.cpp \
-$(ARDUINO_LIB)/SD/utility/Sd2Card.cpp \
-$(ARDUINO_LIB)/Servo/Servo.cpp \
 $(CURDIR)/capteur.cpp \
 $(CURDIR)/accel.cpp \
 $(CURDIR)/capteur_analog.cpp \
@@ -113,7 +96,7 @@ CXXSRC = $(CXX_MODULES) $(CXX_APP)
 FORMAT = ihex
 
 # Name of this Makefile (used for "make depend").
-MAKEFILE = nuxmakefile
+MAKEFILE = makefile
 
 # Debugging format.
 # Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.

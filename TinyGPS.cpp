@@ -35,8 +35,8 @@ TinyGPS::TinyGPS()
   //,  _course(GPS_INVALID_ANGLE)
   //,  _hdop(GPS_INVALID_HDOP)
   //,  _numsats(GPS_INVALID_SATELLITES)
-  ,  _last_time_fix(GPS_INVALID_FIX_TIME)
-  ,  _last_position_fix(GPS_INVALID_FIX_TIME)
+  //,  _last_time_fix(GPS_INVALID_FIX_TIME)
+  //,  _last_position_fix(GPS_INVALID_FIX_TIME)
   ,  _parity(0)
   ,  _is_checksum_term(false)
   ,  _sentence_type(_GPS_SENTENCE_OTHER)
@@ -163,7 +163,7 @@ unsigned long TinyGPS::parse_degrees()
 // Returns true if new sentence has just passed checksum test and is validated
 bool TinyGPS::term_complete()
 {
-  if (_is_checksum_term)
+/*  if (_is_checksum_term)
   {
     byte checksum = 16 * from_hex(_term[0]) + from_hex(_term[1]);
     if (checksum == _parity)
@@ -173,8 +173,8 @@ bool TinyGPS::term_complete()
 #ifndef _GPS_NO_STATS
         ++_good_sentences;
 #endif
-        _last_time_fix = _new_time_fix;
-        _last_position_fix = _new_position_fix;
+        //_last_time_fix = _new_time_fix;
+        //_last_position_fix = _new_position_fix;
 
         switch(_sentence_type)
         {
@@ -206,7 +206,7 @@ bool TinyGPS::term_complete()
 #endif
     return false;
   }
-
+*/
   // the first term determines the sentence type
   if (_term_number == 0)
   {
@@ -224,39 +224,39 @@ bool TinyGPS::term_complete()
   {
     case COMBINE(_GPS_SENTENCE_GPRMC, 1): // Time in both sentences
     case COMBINE(_GPS_SENTENCE_GPGGA, 1):
-      _new_time = parse_decimal();
-      _new_time_fix = millis();
+      /*_new*/_time = parse_decimal();
+      //_new_time_fix = millis();
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 2): // GPRMC validity
       _gps_data_good = _term[0] == 'A';
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 3): // Latitude
     case COMBINE(_GPS_SENTENCE_GPGGA, 2):
-      _new_latitude = parse_degrees();
-      _new_position_fix = millis();
+      /*_new*/_latitude = parse_degrees();
+      //_new_position_fix = millis();
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 4): // N/S
     case COMBINE(_GPS_SENTENCE_GPGGA, 3):
       if (_term[0] == 'S')
-        _new_latitude = -_new_latitude;
+        /*_new*/_latitude = -/*_new*/_latitude;
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 5): // Longitude
     case COMBINE(_GPS_SENTENCE_GPGGA, 4):
-      _new_longitude = parse_degrees();
+      /*_new*/_longitude = parse_degrees();
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 6): // E/W
     case COMBINE(_GPS_SENTENCE_GPGGA, 5):
       if (_term[0] == 'W')
-        _new_longitude = -_new_longitude;
+        /*_new*/_longitude = -/*_new*/_longitude;
       break;
     case COMBINE(_GPS_SENTENCE_GPRMC, 7): // Speed (GPRMC)
-      _new_speed = parse_decimal();
+      /*_new*/_speed = parse_decimal();
       break;
     /*case COMBINE(_GPS_SENTENCE_GPRMC, 8): // Course (GPRMC)
       _new_course = parse_decimal();
       break;*/
     case COMBINE(_GPS_SENTENCE_GPRMC, 9): // Date (GPRMC)
-      _new_date = gpsatol(_term);
+      /*_new*/_date = gpsatol(_term);
       break;
     case COMBINE(_GPS_SENTENCE_GPGGA, 6): // Fix data (GPGGA)
       _gps_data_good = _term[0] > '0';
@@ -268,7 +268,7 @@ bool TinyGPS::term_complete()
       _new_hdop = parse_decimal();
       break;*/
     case COMBINE(_GPS_SENTENCE_GPGGA, 9): // Altitude (GPGGA)
-      _new_altitude = parse_decimal();
+      /*_new*/_altitude = parse_decimal();
       break;
   }
 
@@ -349,8 +349,8 @@ void TinyGPS::get_position(long *latitude, long *longitude, unsigned long *fix_a
 {
   if (latitude) *latitude = _latitude;
   if (longitude) *longitude = _longitude;
-  if (fix_age) *fix_age = _last_position_fix == GPS_INVALID_FIX_TIME ? 
-GPS_INVALID_AGE : millis() - _last_position_fix;
+  //if (fix_age) *fix_age = _last_position_fix == GPS_INVALID_FIX_TIME ? 
+//GPS_INVALID_AGE : millis() - _last_position_fix;
 }
 
 // date as ddmmyy, time as hhmmsscc, and age in milliseconds
@@ -358,8 +358,8 @@ void TinyGPS::get_datetime(unsigned long *date, unsigned long *time, unsigned lo
 {
   if (date) *date = _date;
   if (time) *time = _time;
-  if (age) *age = _last_time_fix == GPS_INVALID_FIX_TIME ? 
-GPS_INVALID_AGE : millis() - _last_time_fix;
+  //if (age) *age = _last_time_fix == GPS_INVALID_FIX_TIME ? 
+//GPS_INVALID_AGE : millis() - _last_time_fix;
 }
 
 /*void TinyGPS::f_get_position(float *latitude, float *longitude, unsigned long *fix_age)

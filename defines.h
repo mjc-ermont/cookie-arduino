@@ -22,7 +22,6 @@
 #define ID_CAPT_PRESSEXT (byte)6    // ID dans la trame du capeur de pression
 
 // GPS
-#define GPS_BAUDRATE     9600 // baudrate de la liaison série avec le GPS
 #define NB_VAL_GPS       (byte)5    // Nombre de valeurs du capteur GPS
 #define ID_VAL_LAT_DEG   (byte)0    // No de la valeur "Degres latitude" dans la trame
 #define ID_VAL_LON_DEG   (byte)1    // No de la valeur "Degres longitude" dans la trame

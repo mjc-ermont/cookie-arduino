@@ -36,14 +36,14 @@ class PWMServo
     static uint8_t attached10;
   public:
     PWMServo();
-    uint8_t attach(int);
+    uint8_t attach(byte);
                              // pulse length for 0 degrees in microseconds, 544uS default
                              // pulse length for 180 degrees in microseconds, 2400uS default
-    uint8_t attach(int, int, int);
+    uint8_t attach(byte, int, int);
                              // attach to a pin, sets pinMode, returns 0 on failure, won't
                              // position the servo until a subsequent write() happens
                              // Only works for 9 and 10.
-    void write(int);         // specify the angle in degrees, 0 to 180
+    void write(byte);         // specify the angle in degrees, 0 to 180
 };
 
 #endif

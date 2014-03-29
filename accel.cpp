@@ -11,7 +11,7 @@ Accel::Accel(const byte &id_capt) : Capteur::Capteur(id_capt, 1){
 
 bool Accel::init(){ // methode d'iniialisation de l'accelerometre
   Wire.begin();                  // initialisation de la bibliotheque I2C
-  delay(100);
+  delay((byte)100);
   this->writeTo(DATA_FORMAT, 0x01);
   this->writeTo(POWER_CTL, 0x08);
 }
@@ -66,7 +66,7 @@ void Accel::readFrom(byte address, byte _buff[]) {
   Wire.beginTransmission(DEVICE); // start transmission to device
   Wire.requestFrom(DEVICE, 6);    // request 6 bytes from device
 
-  int i = 0;
+  byte i = 0;
   while(Wire.available())         // device may send less than requested (abnormal)
   { 
     _buff[i] = Wire.read();    // receive a byte

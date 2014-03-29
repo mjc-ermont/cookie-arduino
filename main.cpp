@@ -55,7 +55,7 @@ void setup() {
    pile.addOut(&sd);
    timer = millis();
    timeralt = millis();
-   servo.attach(PIN_SERVO);
+   servo.attach((byte)PIN_SERVO);
    servo.write((byte)70);
    
 }

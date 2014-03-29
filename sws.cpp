@@ -211,7 +211,7 @@ const int XMIT_START_ADJUSTMENT = 6;
 //
 // Statics
 //
-SoftwareSerial *SoftwareSerial::active_object = 0;
+//SoftwareSerial *SoftwareSerial::active_object = 0;
 //char SoftwareSerial::_receive_buffer[_SS_MAX_RX_BUFF]; 
 //volatile uint8_t SoftwareSerial::_receive_buffer_tail = 0;
 //volatile uint8_t SoftwareSerial::_receive_buffer_head = 0;
@@ -244,10 +244,10 @@ inline void SoftwareSerial::tunedDelay(uint16_t delay) {
   uint8_t tmp=0;
 
   asm volatile("sbiw    %0, 0x01 \n\t"
-    "ldi %1, 0xFF \n\t"
-    "cpi %A0, 0xFF \n\t"
-    "cpc %B0, %1 \n\t"
-    "brne .-10 \n\t"
+    "ldi %1, 0xFF\n\t"
+    "cpi %A0, 0xFF\n\t"
+    "cpc %B0, %1\n\t"
+    "brne .-10\n\t"
 : 
     "+r" (delay), "+a" (tmp)
 : 
@@ -276,10 +276,10 @@ bool SoftwareSerial::listen()
 //
 // The receive routine called by the interrupt handler
 //
-void SoftwareSerial::recv()
+/*void SoftwareSerial::recv()
 {
 
-  /*#if GCC_VERSION < 40302
+  #if GCC_VERSION < 40302
    // Work-around for avr-gcc 4.3.0 OSX version bug
    // Preserve the registers that the compiler misses
    // (courtesy of Arduino forum user *etracer*)
@@ -353,8 +353,8 @@ void SoftwareSerial::recv()
    "pop r19 \n\t"
    "pop r18 \n\t"
    ::);
-   #endif*/
-}
+   #endif
+}*/
 
 void SoftwareSerial::tx_pin_write(uint8_t pin_state)
 {
@@ -364,23 +364,23 @@ void SoftwareSerial::tx_pin_write(uint8_t pin_state)
     *_transmitPortRegister |= _transmitBitMask;
 }
 
-uint8_t SoftwareSerial::rx_pin_read()
+/*uint8_t SoftwareSerial::rx_pin_read()
 {
   //return *_receivePortRegister & _receiveBitMask;
-}
+}*/
 
 //
 // Interrupt handling
 //
 
 /* static */
-inline void SoftwareSerial::handle_interrupt()
+/*inline void SoftwareSerial::handle_interrupt()
 {
   if (active_object)
   {
     active_object->recv();
   }
-}
+}*/
 
 /*#if defined(PCINT0_vect)
  ISR(PCINT0_vect)
@@ -414,13 +414,13 @@ inline void SoftwareSerial::handle_interrupt()
 // Constructor
 //
 
-SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic /* = false */) : 
+SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin/*, bool inverse_logic = false */) : 
 /*_rx_delay_centering(0),
  _rx_delay_intrabit(0),
  _rx_delay_stopbit(0),*/
-_tx_delay(0),
-_buffer_overflow(false),
-_inverse_logic(inverse_logic)
+_tx_delay(0)
+//_buffer_overflow(false),
+//_inverse_logic(inverse_logic)
 {
   setTX(transmitPin);
   //  setRX(receivePin);
@@ -429,10 +429,10 @@ _inverse_logic(inverse_logic)
 //
 // Destructor
 //
-SoftwareSerial::~SoftwareSerial()
+/*SoftwareSerial::~SoftwareSerial()
 {
   end();
-}
+}*/
 
 void SoftwareSerial::setTX(uint8_t tx)
 {
@@ -527,21 +527,21 @@ int SoftwareSerial::available()
 
 size_t SoftwareSerial::write(uint8_t b)
 {
-  if (_tx_delay == 0) {
+  /*if (_tx_delay == 0) {
     setWriteError();
     return 0;
-  }
+  }*/
 
   uint8_t oldSREG = SREG;
   cli();  // turn off interrupts for a clean txmit
 
   // Write the start bit
-  tx_pin_write(_inverse_logic ? HIGH : LOW);
+  tx_pin_write(/*_inverse_logic ?*/ HIGH /*: LOW*/);
   tunedDelay(_tx_delay + XMIT_START_ADJUSTMENT);
 
   // Write each of the 8 bits
-  if (_inverse_logic)
-  {
+  /*if (_inverse_logic)
+  {*/
     for (byte mask = 0x01; mask; mask <<= 1)
     {
       if (b & mask) // choose bit
@@ -553,7 +553,7 @@ size_t SoftwareSerial::write(uint8_t b)
     }
 
     tx_pin_write(LOW); // restore pin to natural state
-  }
+  /*}
   else
   {
     for (byte mask = 0x01; mask; mask <<= 1)
@@ -567,7 +567,7 @@ size_t SoftwareSerial::write(uint8_t b)
     }
 
     tx_pin_write(HIGH); // restore pin to natural state
-  }
+  }*/
   
    tunedDelay(_tx_delay);
 

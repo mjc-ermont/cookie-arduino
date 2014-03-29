@@ -39,10 +39,10 @@ http://arduiniana.org.
 * Definitions
 ******************************************************************************/
 
-#define _SS_MAX_RX_BUFF 64 // RX buffer size
-#ifndef GCC_VERSION
-#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-#endif
+//#define _SS_MAX_RX_BUFF 64 // RX buffer size
+//#ifndef GCC_VERSION
+//#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+//#endif
 
 class SoftwareSerial : public Stream
 {
@@ -53,15 +53,15 @@ private:
 
   uint16_t _tx_delay;
 
-  uint16_t _buffer_overflow:1;
-  uint16_t _inverse_logic:1;
+  //bool _buffer_overflow:1;
+  //bool _inverse_logic:1;
 
   // static data
-  static SoftwareSerial *active_object;
+  //static SoftwareSerial *active_object;
 
   // private methods
-  void recv();
-  uint8_t rx_pin_read();
+  //void recv();
+  //uint8_t rx_pin_read();
   void tx_pin_write(uint8_t pin_state);
   void setTX(uint8_t transmitPin);
 
@@ -70,13 +70,12 @@ private:
 
 public:
   // public methods
-  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = trueœ);
-  ~SoftwareSerial();
+  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin);
   void begin(long speed);
   bool listen();
   void end();
-  bool isListening() { return this == active_object; }
-  bool overflow() { bool ret = _buffer_overflow; _buffer_overflow = false; return ret; }
+  //bool isListening() { return this == active_object; }
+  //bool overflow() { bool ret = _buffer_overflow; _buffer_overflow = false; return ret; }
   int peek();
 
   virtual size_t write(uint8_t byte);
@@ -87,16 +86,9 @@ public:
   using Print::write;
 
   // public only for easy access by interrupt handlers
-  static inline void handle_interrupt();
+  //static inline void handle_interrupt();
 };
 
 // Arduino 0012 workaround
-#undef int
-#undef char
-#undef long
-#undef byte
-#undef float
-#undef abs
-#undef round
 
 #endif
