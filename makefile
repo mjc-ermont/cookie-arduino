@@ -43,7 +43,7 @@
 
 TARGET = $(notdir $(CURDIR))
 # Change this to match your arduino installation directory
-INSTALL_DIR = /home/mjc/Bureau/arduino-1.0.5
+INSTALL_DIR = /usr/share/arduino
 PORT = /dev/ttyACM*
 UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = arduino
