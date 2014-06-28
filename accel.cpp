@@ -18,14 +18,14 @@ bool Accel::init(){ // methode d'iniialisation de l'accelerometre
 
 bool Accel::refresh(){ // methode de recuperation des donnees de l'accelerometre
   byte _buff[6];
-  short int acc_data[3];             // Tableau des trois composantes du vecteur d'acceleration
-  short int avg = 0;                 // Norme du vecteur d'acceleration
+  int acc_data[3];             // Tableau des trois composantes du vecteur d'acceleration
+  int avg = 0;                 // Norme du vecteur d'acceleration
   
   this->readFrom(0x32, _buff);
   
-  acc_data[0] = (((short int)_buff[1]) << 8) | _buff[0];   
-  acc_data[1] = (((short int)_buff[3]) << 8) | _buff[2];
-  acc_data[2] = (((short int)_buff[5]) << 8) | _buff[4];  
+  acc_data[0] = (((int)_buff[1]) << 8) | _buff[0];   
+  acc_data[1] = (((int)_buff[3]) << 8) | _buff[2];
+  acc_data[2] = (((int)_buff[5]) << 8) | _buff[4];  
   
   for(byte i = 0; i < 3; i++){    // Calcul de la norme du vecteur d'acceleration
     avg += acc_data[i] * acc_data[i];

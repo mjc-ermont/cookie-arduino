@@ -97,7 +97,7 @@ void loop(){
      unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
      unsigned int altpress = atoi(press.getValue(0));
 
-     if((altgps > (unsigned int)20000) || (altpress < 55)){
+     if((altgps > (unsigned int)20000) || (altpress < 0)){
        check_alt++;
      } else {
        check_alt = 0;
