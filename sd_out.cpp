@@ -30,7 +30,7 @@ void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
   //file.flush();                          // attente de la fin de l'ecriture
   file.close();*/
   Fat16 f;
-  f.open("L", O_CREAT | O_WRITE | O_APPEND | O_SYNC);
+  f.open("L", O_CREAT | O_WRITE | O_APPEND);
   if(!f.isOpen()) {
     Serial.println(F("couldnt create "));
   }

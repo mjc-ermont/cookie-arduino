@@ -77,6 +77,7 @@ void loop(){
 
      timer = millis();
      if (nb_trames != -1) {
+       Serial.println(nb_trames);
        nb_trames++;
      }
    } else if ( ((millis() - timer) >= (unsigned int)DELAY_REFRESH) && (!(refreshed)) ) {
@@ -95,9 +96,8 @@ void loop(){
    if (((millis() - timeralt) >= (unsigned int)DELAY_CHECK_ALT) && (!(refreshed)) ){
      timeralt = millis();
      unsigned int altgps = atol(gps.getValue(ID_VAL_ALT));
-     unsigned int altpress = atoi(press.getValue(0));
 
-     if((altgps > (unsigned int)20000) || (altpress < 0)){
+     if(altgps > (unsigned int)20000){
        check_alt++;
      } else {
        check_alt = 0;
