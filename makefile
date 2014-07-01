@@ -111,8 +111,8 @@ CDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
 # Place -I options here
-CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility  -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility -I$(ARDUINO_LIB)/Servo
-CXXINCS = -I$(ARDUINO) -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility -I$(ARDUINO_LIB)/SD -I$(ARDUINO_LIB)/SD/utility -I$(ARDUINO_LIB)/Servo
+CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility
+CXXINCS = -I$(ARDUINO) -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/Wire -I$(ARDUINO_LIB)/Wire/utility
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C

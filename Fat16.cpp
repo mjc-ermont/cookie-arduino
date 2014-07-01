@@ -44,7 +44,7 @@ uint8_t  Fat16::cacheDirty_ = 0;        // cacheFlush() will write block if true
 uint32_t Fat16::cacheMirrorBlock_ = 0;  // mirror  block for second FAT
 //------------------------------------------------------------------------------
 // callback function for date/time
-//void (*Fat16::dateTime_)(uint16_t* date, uint16_t* time) = NULL;
+void (*Fat16::dateTime_)(uint16_t* date, uint16_t* time) = NULL;
 
 #if ALLOW_DEPRECATED_FUNCTIONS
 void (*Fat16::oldDateTime_)(uint16_t& date, uint16_t& time) = NULL;  // NOLINT
@@ -152,11 +152,11 @@ uint8_t Fat16::cacheRawBlock(uint32_t blockNumber, uint8_t action) {
  * the value zero, false, is returned for failure.
  * Reasons for failure include no file is open or an I/O error.
  */
-/*uint8_t Fat16::close(void) {
+uint8_t Fat16::close(void) {
   if (!sync()) return false;
   flags_ = 0;
   return true;
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Return a files directory entry
@@ -166,13 +166,13 @@ uint8_t Fat16::cacheRawBlock(uint32_t blockNumber, uint8_t action) {
  * \return The value one, true, is returned for success and
  * the value zero, false, is returned for failure.
  */
-/*uint8_t Fat16::dirEntry(dir_t* dir) {
+uint8_t Fat16::dirEntry(dir_t* dir) {
   if (!sync()) return false;
   dir_t* p = cacheDirEntry(dirEntryIndex_, CACHE_FOR_WRITE);
   if (!p) return false;
   memcpy(dir, p, sizeof(dir_t));
   return true;
-}*/
+}
 //------------------------------------------------------------------------------
 uint8_t Fat16::fatGet(fat_t cluster, fat_t* value) {
   if (cluster > (clusterCount_ + 1)) return false;
@@ -247,24 +247,24 @@ uint8_t Fat16::init(SdCard* dev, uint8_t part) {
   blocksPerFat_ = bpb->sectorsPerFat16;
   rootDirEntryCount_ = bpb->rootDirEntryCount;
   fatStartBlock_ = volumeStartBlock + bpb->reservedSectorCount;
-  rootDirStartBlock_ = fatStartBlock_ + bpb->fatCount * bpb->sectorsPerFat16;
+  rootDirStartBlock_ = fatStartBlock_ + bpb->fatCount*bpb->sectorsPerFat16;
   dataStartBlock_ = rootDirStartBlock_
-                    + ((32 * bpb->rootDirEntryCount + 511) / 512);
+                    + ((32*bpb->rootDirEntryCount + 511)/512);
   uint32_t totalBlocks = bpb->totalSectors16 ?
-                         bpb->totalSectors16 : bpb->totalSectors32;
+                               bpb->totalSectors16 : bpb->totalSectors32;
   clusterCount_ = (totalBlocks - (dataStartBlock_ - volumeStartBlock))
-                  / bpb->sectorsPerCluster;
+                  /bpb->sectorsPerCluster;
   // verify valid FAT16 volume
   if (bpb->bytesPerSector != 512       // only allow 512 byte blocks
-      || bpb->sectorsPerFat16 == 0      // zero for FAT32
-      || clusterCount_ < 4085           // FAT12 if true
-      || totalBlocks > 0X800000         // Max size for FAT16 volume
-      || bpb->reservedSectorCount == 0  // invalid volume
-      || bpb->fatCount == 0             // invalid volume
-      || bpb->sectorsPerFat16 < (clusterCount_ >> 8)  // invalid volume
-      || bpb->sectorsPerCluster == 0   // invalid volume
-      // power of 2 test
-      || bpb->sectorsPerCluster & (bpb->sectorsPerCluster - 1)) {
+     || bpb->sectorsPerFat16 == 0      // zero for FAT32
+     || clusterCount_ < 4085           // FAT12 if true
+     || totalBlocks > 0X800000         // Max size for FAT16 volume
+     || bpb->reservedSectorCount == 0  // invalid volume
+     || bpb->fatCount == 0             // invalid volume
+     || bpb->sectorsPerFat16 < (clusterCount_ >> 8)  // invalid volume
+     || bpb->sectorsPerCluster == 0   // invalid volume
+        // power of 2 test
+     || bpb->sectorsPerCluster & (bpb->sectorsPerCluster - 1)) {
     // not a usable FAT16 bpb
     return false;
   }
@@ -280,7 +280,7 @@ uint8_t Fat16::init(SdCard* dev, uint8_t part) {
  *
  * LS_SIZE - %Print file size.
  */
-/*void Fat16::ls(uint8_t flags) {
+void Fat16::ls(uint8_t flags) {
   dir_t d;
   for (uint16_t index = 0; readDir(&d, &index, DIR_ATT_VOLUME_ID); index++) {
     // print file name with possible blank fill
@@ -300,7 +300,7 @@ uint8_t Fat16::init(SdCard* dev, uint8_t part) {
     }
     Serial.println();
   }
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Open a file by file name.
@@ -383,14 +383,14 @@ uint8_t Fat16::open(const char* fileName, uint8_t oflag) {
   memcpy(p->name, dname, 11);
 
   // set timestamps
-  /*if (dateTime_) {
+  if (dateTime_) {
     // call user function
     dateTime_(&p->creationDate, &p->creationTime);
-  } else {*/
-  // use default date/time
-  p->creationDate = FAT_DEFAULT_DATE;
-  p->creationTime = FAT_DEFAULT_TIME;
-  //}
+  } else {
+    // use default date/time
+    p->creationDate = FAT_DEFAULT_DATE;
+    p->creationTime = FAT_DEFAULT_TIME;
+  }
   p->lastAccessDate = p->creationDate;
   p->lastWriteDate = p->creationDate;
   p->lastWriteTime = p->creationTime;
@@ -452,7 +452,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * \param[in] dir The directory structure containing the name.
  * \param[in] width Blank fill name if length is less than \a width.
  */
-/*void Fat16::printDirName(const dir_t& dir, uint8_t width) {
+void Fat16::printDirName(const dir_t& dir, uint8_t width) {
   uint8_t w = 0;
   for (uint8_t i = 0; i < 11; i++) {
     if (dir.name[i] == ' ') continue;
@@ -471,7 +471,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
     Serial.write(' ');
     w++;
   }
-}*/
+}
 //------------------------------------------------------------------------------
 /** %Print a directory date field to Serial.
  *
@@ -479,13 +479,13 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  *
  * \param[in] fatDate The date field from a directory entry.
  */
-/*void Fat16::printFatDate(uint16_t fatDate) {
+void Fat16::printFatDate(uint16_t fatDate) {
   Serial.print(FAT_YEAR(fatDate));
   Serial.write('-');
   printTwoDigits(FAT_MONTH(fatDate));
   Serial.write('-');
   printTwoDigits(FAT_DAY(fatDate));
-}*/
+}
 //------------------------------------------------------------------------------
 /** %Print a directory time field to Serial.
  *
@@ -493,26 +493,26 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  *
  * \param[in] fatTime The time field from a directory entry.
  */
-/*void Fat16::printFatTime(uint16_t fatTime) {
+void Fat16::printFatTime(uint16_t fatTime) {
   printTwoDigits(FAT_HOUR(fatTime));
   Serial.write(':');
   printTwoDigits(FAT_MINUTE(fatTime));
   Serial.write(':');
   printTwoDigits(FAT_SECOND(fatTime));
-}*/
+}
 
 //------------------------------------------------------------------------------
 /** %Print a value as two digits to Serial.
  *
  * \param[in] v Value to be printed, 0 <= \a v <= 99
  */
-/*void Fat16::printTwoDigits(uint8_t v) {
+void Fat16::printTwoDigits(uint8_t v) {
   char str[3];
   str[0] = '0' + v/10;
   str[1] = '0' + v % 10;
   str[2] = 0;
   Serial.print(str);
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Read the next byte from a file.
@@ -520,10 +520,10 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * \return For success read returns the next byte in the file as an int.
  * If an error occurs or end of file is reached -1 is returned.
  */
-/*int16_t Fat16::read(void) {
+int16_t Fat16::read(void) {
   uint8_t b;
   return read(&b, 1) == 1 ? b : -1;
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Read data from a file at starting at the current file position.
@@ -539,7 +539,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * read called before a file has been opened, the file has not been opened in
  * read mode, a corrupt file system, or an I/O error.
  */
-/*int16_t Fat16::read(void* buf, uint16_t nbyte) {
+int16_t Fat16::read(void* buf, uint16_t nbyte) {
   // convert void pointer to uin8_t pointer
   uint8_t* dst = reinterpret_cast<uint8_t*>(buf);
 
@@ -584,7 +584,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
     nToRead -= n;
   }
   return nbyte;
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  *  Read the next short, 8.3, directory entry.
@@ -606,7 +606,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * reached.  On success, \a entry is set to the index of the found directory
  * entry.
  */
-/*uint8_t Fat16::readDir(dir_t* dir, uint16_t* index, uint8_t skip) {
+uint8_t Fat16::readDir(dir_t* dir, uint16_t* index, uint8_t skip) {
   dir_t* p;
   for (uint16_t i = *index; ; i++) {
     if (i >= rootDirEntryCount_) return false;
@@ -630,7 +630,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
   }
   memcpy(dir, p, sizeof(dir_t));
   return true;
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Remove a file.  The directory entry and all data for the file are deleted.
@@ -644,7 +644,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * Reasons for failure include the file is not open for write
  * or an I/O error occurred.
  */
-/*uint8_t Fat16::remove(void) {
+uint8_t Fat16::remove(void) {
   // error if file is not open for write
   if (!(flags_ & O_WRITE)) return false;
   if (firstCluster_) {
@@ -655,7 +655,7 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
   d->name[0] = DIR_NAME_DELETED;
   flags_ = 0;
   return cacheFlush();
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Remove a file.
@@ -673,11 +673,11 @@ uint8_t Fat16::open(uint16_t index, uint8_t oflag) {
  * Reasons for failure include the file is read only, \a fileName is not found
  * or an I/O error occurred.
  */
-/*uint8_t Fat16::remove(const char* fileName) {
+uint8_t Fat16::remove(const char* fileName) {
   Fat16 file;
   if (!file.open(fileName, O_WRITE)) return false;
   return file.remove();
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Sets the file's read/write position.
@@ -696,13 +696,13 @@ uint8_t Fat16::seekSet(uint32_t pos) {
     curPosition_ = 0;
     return true;
   }
-  fat_t n = ((pos - 1) >> 9) / blocksPerCluster_;
+  fat_t n = ((pos - 1) >> 9)/blocksPerCluster_;
   if (pos < curPosition_ || curPosition_ == 0) {
     // must follow chain from first cluster
     curCluster_ = firstCluster_;
   } else {
     // advance from curPosition
-    n -= ((curPosition_ - 1) >> 9) / blocksPerCluster_;
+    n -= ((curPosition_ - 1) >> 9)/blocksPerCluster_;
   }
   while (n--) {
     if (!fatGet(curCluster_, &curCluster_)) return false;
@@ -731,10 +731,10 @@ uint8_t Fat16::sync(void) {
     d->firstClusterLow = firstCluster_;
 
     // set modify time if user supplied a callback date/time function
-    /*if (dateTime_) {
+    if (dateTime_) {
       dateTime_(&d->lastWriteDate, &d->lastWriteTime);
       d->lastAccessDate = d->lastWriteDate;
-    }*/
+    }
     flags_ &= ~F_FILE_DIR_DIRTY;
   }
   return cacheFlush();
@@ -770,7 +770,7 @@ uint8_t Fat16::sync(void) {
  * \return The value one, true, is returned for success and
  * the value zero, false, is returned for failure.
  */
-/*uint8_t Fat16::timestamp(uint8_t flags, uint16_t year, uint8_t month,
+uint8_t Fat16::timestamp(uint8_t flags, uint16_t year, uint8_t month,
          uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
   if (!isOpen()
     || year < 1980
@@ -803,7 +803,7 @@ uint8_t Fat16::sync(void) {
   }
   cacheSetDirty();
   return sync();
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Truncate a file to a specified length.  The current file position
@@ -921,21 +921,21 @@ int16_t Fat16::write(const void* buf, uint16_t nbyte) {
     nToWrite -= n;
     src += n;
   }
-  //if (curPosition_ > fileSize_) {
+  if (curPosition_ > fileSize_) {
     // update fileSize and insure sync will update dir entry
     fileSize_ = curPosition_;
     flags_ |= F_FILE_DIR_DIRTY;
-  /*} else if (dateTime_ && nbyte) {
+  } else if (dateTime_ && nbyte) {
     // insure sync will update modified date and time
     flags_ |= F_FILE_DIR_DIRTY;
-  }*/
+  }
 
   if (flags_ & O_SYNC) {
     if (!sync()) goto writeErrorReturn;
   }
   return nbyte;
 
-writeErrorReturn:
+ writeErrorReturn:
   writeError = true;
   return -1;
 }
@@ -975,16 +975,16 @@ int16_t Fat16::write(const char* str) {
  *
  * Use Fat16::writeError to check for errors.
  */
-/*void Fat16::write_P(PGM_P str) {
+void Fat16::write_P(PGM_P str) {
   for (uint8_t c; (c = pgm_read_byte(str)); str++) write(c);
-}*/
+}
 //------------------------------------------------------------------------------
 /**
  * Write a PROGMEM string followed by CR/LF to a file.
  *
  * Use Fat16::writeError to check for errors.
  */
-/*void Fat16::writeln_P(PGM_P str) {
+void Fat16::writeln_P(PGM_P str) {
   write_P(str);
   println();
-}*/
+}
