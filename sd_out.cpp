@@ -14,11 +14,11 @@ bool SdOut::init(){          // Initialisation de la carte sd
   }*/
   SdCard card;
   if (!card.init()) {
-    Serial.println(F("Card init. failed")); 
+    //Serial.println(F("Card init. failed")); 
   }
 
   if (!Fat16::init(&card)) {
-	Serial.println(F("No partition!")); 
+	//Serial.println(F("No partition!")); 
   }}
 
 void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
@@ -31,8 +31,8 @@ void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
   file.close();*/
   Fat16 f;
   f.open("L", O_CREAT | O_WRITE | O_APPEND);
-  if(!f.isOpen()) {
+  /*if(!f.isOpen()) {
     Serial.println(F("couldnt create "));
-  }
+  }*/
   f.write((uint8_t*) trame, strlen(trame));
 }
