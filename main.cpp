@@ -77,7 +77,6 @@ void loop(){
 
      timer = millis();
      if (nb_trames != -1) {
-       Serial.println(nb_trames);
        nb_trames++;
      }
    } else if ( ((millis() - timer) >= (unsigned int)DELAY_REFRESH) && (!(refreshed)) ) {

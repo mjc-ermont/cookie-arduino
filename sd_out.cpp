@@ -14,11 +14,11 @@ bool SdOut::init(){          // Initialisation de la carte sd
   }*/
   SdCard card;
   if (!card.init()) {
-    //Serial.println(F("Card init. failed")); 
+    Serial.println(F("Card init. failed")); 
   }
 
   if (!Fat16::init(&card)) {
-    //Serial.println(F("No partition!")); 
+	Serial.println(F("No partition!")); 
   }}
 
 void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
