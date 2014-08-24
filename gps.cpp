@@ -8,13 +8,14 @@ GPS::GPS(const byte &id) : Capteur::Capteur(id, NB_VAL_GPS){
 }
 
 bool GPS::init(){
+  Serial1.begin(SERIAL_BAUDRATE_GPS);
 }
 
 bool GPS::refresh(){
       long flat, flon;
       unsigned long age, date, time, fix_age;
-      while(Serial.available()>0){
-        _gps.encode(Serial.read());
+      while(Serial1.available()>0){
+        _gps.encode(Serial1.read());
       }     
       _gps.get_position(&flat, &flon, &age);  
       _gps.get_datetime(&date, &time, &fix_age);
