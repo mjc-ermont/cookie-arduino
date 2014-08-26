@@ -13,4 +13,5 @@ void SerialOut::writeQueue(char* trame){    // Eccriture de la file sur la sorti
   for (byte i = 0 ; i < NB_REPET ; i++){        // Plusieurs fois au cas ou le recepteur de receptionnerait pas les premieres fois
     Serial.print(trame);
   }
+  Serial.print("\n");
 }

@@ -11,5 +11,6 @@ bool pH::init(){
 }
 
 bool pH::refresh(){
-  Serial2.readBytesUntil(13,_val[ID_VAL_LAT_DEG], SIZE_VALUE+1);
+  byte nbread = Serial2.readBytesUntil(13,_val[ID_VAL_LAT_DEG], SIZE_VALUE+1);
+  _val[ID_VAL_LAT_DEG][nbread] = '\0';
 }
