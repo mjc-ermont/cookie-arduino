@@ -27,12 +27,11 @@
 #define ID_CAPT_CO2       (byte)8
 
 // GPS
-#define NB_VAL_GPS        (byte)5    // Nombre de valeurs du capteur GPS
+#define NB_VAL_GPS        (byte)4    // Nombre de valeurs du capteur GPS
 #define ID_VAL_LAT_DEG    (byte)0    // No de la valeur "Degres latitude" dans la trame
 #define ID_VAL_LON_DEG    (byte)1    // No de la valeur "Degres longitude" dans la trame
 #define ID_VAL_VIT        (byte)2    // No de la valeur "Vitesse" dans la trame
-#define ID_VAL_UTIME      (byte)3    // No de la valeur "temps UTC" dans la trame
-#define ID_VAL_ALT        (byte)4    // No de la valeur "temps UTC" dans la trame
+#define ID_VAL_ALT        (byte)3    // No de la valeur "temps UTC" dans la trame
 
 
 /*  ------- CAPTEUR HUMIDITE -------  */

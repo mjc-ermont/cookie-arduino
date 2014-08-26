@@ -14,6 +14,7 @@ public:
 
 private:
         TinyGPS _gps;
+        byte leds[4];
 };
 
 #endif
