@@ -70,7 +70,7 @@ public:
   inline unsigned long speed() { return _speed; }
 
   // satellites used in last full GPGGA sentence
-  //inline unsigned short satellites() { return _numsats; }
+  inline unsigned short satellites() { return _numsats; }
 
   // horizontal dilution of precision in 100ths
   //inline unsigned long hdop() { return _hdop; }
@@ -106,7 +106,7 @@ private:
   unsigned long  _speed;//, _new_speed;
   //nsigned long  _course, _new_course;
   //unsigned long  _hdop, _new_hdop;
-  //unsigned short _numsats, _new_numsats;
+  unsigned short _numsats;//, _new_numsats;
 
   //unsigned long _last_time_fix, _new_time_fix;
   //unsigned long _last_position_fix, _new_position_fix;

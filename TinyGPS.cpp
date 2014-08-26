@@ -34,7 +34,7 @@ TinyGPS::TinyGPS()
   ,  _speed(GPS_INVALID_SPEED)
   //,  _course(GPS_INVALID_ANGLE)
   //,  _hdop(GPS_INVALID_HDOP)
-  //,  _numsats(GPS_INVALID_SATELLITES)
+  ,  _numsats(GPS_INVALID_SATELLITES)
   //,  _last_time_fix(GPS_INVALID_FIX_TIME)
   //,  _last_position_fix(GPS_INVALID_FIX_TIME)
   ,  _parity(0)
@@ -261,9 +261,9 @@ bool TinyGPS::term_complete()
     case COMBINE(_GPS_SENTENCE_GPGGA, 6): // Fix data (GPGGA)
       _gps_data_good = _term[0] > '0';
       break;
-    /*case COMBINE(_GPS_SENTENCE_GPGGA, 7): // Satellites used (GPGGA)
-      _new_numsats = (unsigned char)atoi(_term);
-      break;*/
+    case COMBINE(_GPS_SENTENCE_GPGGA, 7): // Satellites used (GPGGA)
+      /*_new*/_numsats = (unsigned char)atoi(_term);
+      break;
     /*case COMBINE(_GPS_SENTENCE_GPGGA, 8): // HDOP
       _new_hdop = parse_decimal();
       break;*/

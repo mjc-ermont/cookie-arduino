@@ -13,18 +13,17 @@ bool GPS::init(){
 
 bool GPS::refresh(){
       long flat, flon;
-      unsigned long age, date, time, fix_age;
+      unsigned long age, fix_age;
       while(Serial1.available()>0){
         _gps.encode(Serial1.read());
       }     
-      _gps.get_position(&flat, &flon, &age);  
-      _gps.get_datetime(&date, &time, &fix_age);
+      _gps.get_position(&flat, &flon, &age);
 
       String(flat).toCharArray(_val[ID_VAL_LAT_DEG], SIZE_VALUE+1);
       String(flon).toCharArray(_val[ID_VAL_LON_DEG], SIZE_VALUE+1);
       String(_gps.speed()).toCharArray(_val[ID_VAL_VIT], SIZE_VALUE+1);
       String(_gps.altitude()).toCharArray(_val[ID_VAL_ALT], SIZE_VALUE+1);
-      String(time).toCharArray(_val[ID_VAL_UTIME], SIZE_VALUE+1);
+      String(_gps.satellites()).toCharArray(_val[ID_VAL_UTIME], SIZE_VALUE+1);
 }
 
 /*void GPS::getTrame(){
