@@ -25,7 +25,6 @@ bool GPS::refresh(){
       String(_gps.speed()).toCharArray(_val[ID_VAL_VIT], SIZE_VALUE+1);
       String(_gps.altitude()).toCharArray(_val[ID_VAL_ALT], SIZE_VALUE+1);
       String(time).toCharArray(_val[ID_VAL_UTIME], SIZE_VALUE+1);
-
 }
 
 /*void GPS::getTrame(){

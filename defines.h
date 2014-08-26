@@ -9,7 +9,7 @@
 
 #define DELAY_SEND       1000
 #define DELAY_REFRESH    800
-#define SERIAL_BAUDRATE  600
+#define SERIAL_BAUDRATE  57600
 #define SERIAL_BAUDRATE_GPS 57600 // baudrate de la liaison série avec le kiwi
 #define SERIAL_BAUDRATE_PH 38400 // baudrate de la liaison série avec le kiwi
 
@@ -51,6 +51,6 @@
 
 /*  ------- CAPTEUR TEMPERATURE -------  */
 
-#define SD_CS_PIN         (byte)8
+#define SD_CS_PIN         (byte)53
 
 #endif

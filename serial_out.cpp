@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "defines.h"
-#include "sws.h"
 #include "serial_out.h"
 
 SerialOut::SerialOut(){
