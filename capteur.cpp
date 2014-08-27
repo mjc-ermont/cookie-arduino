@@ -35,14 +35,13 @@ void Capteur::getTrame(){
     itoa(i, buffer, 10);
     strcat(trame, buffer);                                // No de la valeur
     strcat(trame, sep);                               // separateur
-    for (byte j = 0 ;  j < ((byte)SIZE_VALUE) - ((byte)strlen(_val[i])) ; j++) {strcat(trame, "0");} // remplissage de la taille maximale de la valeur pour que la trame envoyée ait une longueur constante
+    for (byte j = 0 ;  j < ((byte)SIZE_VALUE) - ((byte)strlen(_val[i])) ; j++) {strcat(trame, " ");} // remplissage de la taille maximale de la valeur pour que la trame envoyée ait une longueur constante
     strcat(trame, _val[i]);// Ajout de la valeur
     strcat(trame, sep);    // separaeur
     itoa(get_checksum(trame), buffer, 16);
     strcat(trame, buffer);  // Ajout du checksum
     strcat(trame, sep);
     encode_rs_char(_rs, (unsigned char*)trame, (unsigned char*)ecc);
-    trame[10] = 'u'; 
     memcpy(&trame[19], ecc, 20);
     strcat(trame, sep);
     strcat(trame, "@");                             // separaeur + fin

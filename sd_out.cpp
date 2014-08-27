@@ -16,9 +16,9 @@ bool SdOut::init(){          // Initialisation de la carte sd
 
 void SdOut::writeQueue(char* trame){    // Eccriture de la file sur la sortie
   File file = SD.open("l", FILE_WRITE);
-  /*if(!(file)){
-    Serial.println(F("Can't write to file"));
-  }*/
+  if(!(file)){
+    //Serial.println(F("Can't write to file"));
+  }
   file.print(millis());
   file.print(F(","));
   file.println(trame);                     // Ecriture de l'element courant

@@ -4,10 +4,10 @@
 #include "TinyGPS.h"
 
 GPS::GPS(const byte &id) : Capteur::Capteur(id, NB_VAL_GPS){
-   leds[0] = 42;
-   leds[1] = 43;
-   leds[2] = 44;
-   leds[3] = 45;
+   leds[0] = 46;
+   leds[1] = 42;
+   leds[2] = 45;
+   leds[3] = 49;
    
    for (byte i = 0; i < 4; i += 1) {
      pinMode(leds[i], OUTPUT);
@@ -30,6 +30,10 @@ bool GPS::refresh(){
       String(flon).toCharArray(_val[ID_VAL_LON_DEG], SIZE_VALUE+1);
       String(_gps.speed()).toCharArray(_val[ID_VAL_VIT], SIZE_VALUE+1);
       String(_gps.altitude()).toCharArray(_val[ID_VAL_ALT], SIZE_VALUE+1);
+      
+      for (byte i = 0; i < 4; i ++){
+        digitalWrite(leds[i], LOW);
+      }
       
       for (byte i = 0; i < _gps.satellites(); i += 1) {
         if (i > 3) {
