@@ -26,6 +26,7 @@ protected:
         const byte _id_capt;
         const byte _nb_val;
         byte _nb_out;
+        void* _rs;
 };
 
 #endif

@@ -25,6 +25,7 @@
 #define ID_CAPT_PRESSEXT  (byte)6    // ID dans la trame du capeur de pression
 #define ID_CAPT_CONDUCT   (byte)7
 #define ID_CAPT_CO2       (byte)8
+#define ID_CAPT_TEMPEXT   (byte)9
 
 // GPS
 #define NB_VAL_GPS        (byte)4    // Nombre de valeurs du capteur GPS
@@ -47,7 +48,7 @@
 #define PIN_CONDUCT       (byte)4
 #define PIN_CHAMALLOW     (byte)5
 #define PIN_CO2           (byte)6
-
+#define PIN_TEMPEXT       (byte)7
 /*  ------- CAPTEUR TEMPERATURE -------  */
 
 #define SD_CS_PIN         (byte)53
