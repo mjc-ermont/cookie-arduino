@@ -47,7 +47,7 @@ INSTALL_DIR = /usr/share/arduino
 PORT = /dev/ttyACM*
 UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = arduino
-MCU = atmega328p
+MCU = atmega2560
 F_CPU = 16000000L
 
 VERSION=104
@@ -87,6 +87,9 @@ $(CURDIR)/TinyGPS.cpp \
 $(CURDIR)/PWMServo.cpp \
 $(CURDIR)/Fat16.cpp \
 $(CURDIR)/SdCard.cpp \
+$(CURDIR)/ph.cpp \
+$(CURDIR)/init_rs.cpp \
+$(CURDIR)/encode_rs.cpp \
 
 
 CXX_APP = main.cpp
