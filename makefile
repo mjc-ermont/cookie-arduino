@@ -74,7 +74,6 @@ $(ARDUINO)/main.cpp \
 $(ARDUINO_LIB)/Wire/Wire.cpp \
 $(ARDUINO_LIB)/Wire/utility/twi.cpp \
 $(CURDIR)/capteur.cpp \
-$(CURDIR)/accel.cpp \
 $(CURDIR)/capteur_analog.cpp \
 $(CURDIR)/gps.cpp \
 $(CURDIR)/humidity.cpp \
