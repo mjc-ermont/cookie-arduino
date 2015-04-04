@@ -82,9 +82,6 @@ $(CURDIR)/serial_out.cpp \
 $(CURDIR)/trame.cpp \
 $(CURDIR)/sws.cpp \
 $(CURDIR)/TinyGPS.cpp \
-$(CURDIR)/PWMServo.cpp \
-$(CURDIR)/Fat16.cpp \
-$(CURDIR)/SdCard.cpp \
 $(CURDIR)/ph.cpp \
 $(CURDIR)/init_rs.cpp \
 $(CURDIR)/encode_rs.cpp \
