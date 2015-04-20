@@ -73,6 +73,11 @@ $(ARDUINO)/WString.cpp \
 $(ARDUINO)/main.cpp \
 $(ARDUINO_LIB)/Wire/Wire.cpp \
 $(ARDUINO_LIB)/Wire/utility/twi.cpp \
+$(ARDUINO_LIB)/SD/SD.cpp \
+$(ARDUINO_LIB)/SD/File.cpp \
+$(ARDUINO_LIB)/SD/utility/SdVolume.cpp \
+$(ARDUINO_LIB)/SD/utility/SdFile.cpp \
+$(ARDUINO_LIB)/SD/utility/Sd2Card.cpp \
 $(CURDIR)/capteur.cpp \
 $(CURDIR)/capteur_analog.cpp \
 $(CURDIR)/gps.cpp \
